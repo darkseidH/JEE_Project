@@ -8,10 +8,10 @@
 
 	<!-- Font Icon -->
 	<link rel="stylesheet"
-		  href="fonts/material-icon/css/material-design-iconic-font.min.css">
+		  href="/WEB-INF/fonts/material-icon/css/material-design-iconic-font.min.css">
 
 	<!-- Main css -->
-	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="/WEB-INF/css/style.css">
 </head>
 <body>
 
@@ -23,7 +23,7 @@
 			<div class="signin-content">
 				<div class="signin-image">
 					<figure>
-						<img src="images/signin-image.jpg" alt="sing up image">
+						<img src="/WEB-INF/images/signin-image.jpg" alt="sing up image">
 					</figure>
 				</div>
 
@@ -57,7 +57,7 @@
 
 <!-- JS -->
 <script src="vendor/jquery/jquery.min.js"></script>
-<script src="js/main.js"></script>
+<script src="WEB-INF/js/main.js"></script>
 </body>
 <!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>
