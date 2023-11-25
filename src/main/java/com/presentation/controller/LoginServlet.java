@@ -1,7 +1,8 @@
 package com.presentation.controller;
 
+
 import com.buisness.GestionUser;
-import com.data.GestionUserData;
+import com.presentation.model.User;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -14,7 +15,7 @@ import java.io.IOException;
 
 @WebServlet(name = "loginServlet", value = "/login")
 public class LoginServlet extends HttpServlet {
-    GestionUserData gestionUserData = new GestionUserData();
+    GestionUser gestionUser = new GestionUser();
     public void init() throws ServletException {
         super.init();
     }
@@ -26,11 +27,23 @@ public class LoginServlet extends HttpServlet {
         if (request.getParameter("email") != null && request.getParameter("password") != null) {
             String email = request.getParameter("email");
             String password = request.getParameter("password");
-            boolean exist = gestionUserData.checkUser(email, password);
+            User user = new User();
+            user.setEmail(email);
+            user.setPassword(password);
+            user = gestionUser.findUser(user);
 
-            if (exist){
-                session.setAttribute("email", email);
-                dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/home.jsp");
+            if (user != null){
+                session.setAttribute("email", user.getEmail());
+                session.setAttribute("role", user.getRole());
+                if (user.getRole().equals("director")) {
+                    dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/home.jsp");
+                }
+                if (user.getRole().equals("chefProjet")) {
+                    dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/home_chef.jsp");
+                }
+                if (user.getRole().equals("developer")) {
+                    dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/home_dev.jsp");
+                }
             }else {
                 request.setAttribute("error", "Invalid email or password");
                 dispatcher = request.getRequestDispatcher("/index.jsp");

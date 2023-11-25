@@ -11,6 +11,6 @@
     <title>Title</title>
 </head>
 <body>
-
+You are logged in as <%= session.getAttribute("role") %>
 </body>
 </html>
