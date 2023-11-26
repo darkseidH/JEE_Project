@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%
+    response.setHeader("Cache-Control","no-cache, no-store, must-revalidate");
+
     if(session.getAttribute("email") == null){
         response.sendRedirect("index.jsp");
     }

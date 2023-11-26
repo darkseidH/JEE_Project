@@ -62,4 +62,9 @@ public class LoginServlet extends HttpServlet {
             }
         }
     }
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        RequestDispatcher dispatcher = null;
+        dispatcher = request.getRequestDispatcher("/index.jsp");
+        dispatcher.forward(request, response);
+    }
 }

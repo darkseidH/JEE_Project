@@ -2,10 +2,7 @@ package com.presentation.controller;
 
 import java.io.*;
 
-import com.presentation.model.Director;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 

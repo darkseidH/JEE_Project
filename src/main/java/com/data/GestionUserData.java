@@ -67,12 +67,25 @@ public class GestionUserData {
         return true;
     }
 
-    public ResultSet getUsersWithRoleData(User user) {
+    public ResultSet findUsersWithRoleData(User user) {
         ResultSet res = null;
         String req = "SELECT * FROM User WHERE role = ?";
         try {
             PreparedStatement st = conn.prepareStatement(req);
             st.setString(1, user.getRole());
+            res = st.executeQuery();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return res;
+    }
+
+    public ResultSet findUserWithIdData(User user) {
+        ResultSet res = null;
+        String req = "SELECT * FROM User WHERE id = ?";
+        try {
+            PreparedStatement st = conn.prepareStatement(req);
+            st.setLong(1, user.getId());
             res = st.executeQuery();
         } catch (SQLException e) {
             System.out.println(e.getMessage());

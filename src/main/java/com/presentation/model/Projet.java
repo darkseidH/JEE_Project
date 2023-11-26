@@ -21,5 +21,6 @@ public class Projet {
 	private String nom;
 	private int nombreJourDeveloppement;
 	private String nomClient;
+	private Long chefProjet_id;
 
 }//end Projet

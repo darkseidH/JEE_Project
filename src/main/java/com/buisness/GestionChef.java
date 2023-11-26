@@ -30,7 +30,12 @@ public class GestionChef implements I_Gestion_User {
     }
 
     @Override
-    public List<User> getUsersWithRole(User user) throws SQLException {
+    public List<User> findUsersWithRole(User user) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public User findUserWithId(User user) throws SQLException {
         return null;
     }
 }

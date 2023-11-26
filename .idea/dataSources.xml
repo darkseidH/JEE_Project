@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="mysql_JEE" uuid="6ee93d1d-a66f-41aa-800e-0ee2b9c5bcc1">
+    <data-source source="LOCAL" name="mysql" uuid="ef00cf14-7165-4ca7-8678-5a36c9e76952">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://172.17.0.2:3306</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
-    <data-source source="LOCAL" name="jee_project@localhost" uuid="ad12de22-1738-43a9-8117-75c962c5f400">
-      <driver-ref>mysql.8</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/jee_project</jdbc-url>
+      <jdbc-url>jdbc:mysql://172.17.0.2:3306/JEE_Project</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>
