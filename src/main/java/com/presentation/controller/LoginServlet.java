@@ -39,25 +39,27 @@ public class LoginServlet extends HttpServlet {
             }
 
             if (user != null) {
-                session.setAttribute("email", user.getEmail());
-                session.setAttribute("role", user.getRole());
-                if (user.getRole().equals("director")) {
-                    dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/home.jsp");
+                if (user.getEmail() != null && user.getRole() != null) {
+                    session.setAttribute("email", user.getEmail());
+                    session.setAttribute("role", user.getRole());
+                    if (user.getRole().equals("director")) {
+                        dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/home.jsp");
+                    }
+                    if (user.getRole().equals("chefProjet")) {
+                        dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/home_chef.jsp");
+                    }
+                    if (user.getRole().equals("developer")) {
+                        dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/home_dev.jsp");
+                    }
+                } else {
+                    request.setAttribute("error", "Invalid email or password");
+                    dispatcher = request.getRequestDispatcher("/index.jsp");
                 }
-                if (user.getRole().equals("chefProjet")) {
-                    dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/home_chef.jsp");
-                }
-                if (user.getRole().equals("developer")) {
-                    dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/home_dev.jsp");
-                }
+                dispatcher.forward(request, response);
             } else {
-                request.setAttribute("error", "Invalid email or password");
-                dispatcher = request.getRequestDispatcher("/index.jsp");
+                request.setAttribute("error", "Please enter your email and password");
+                request.getRequestDispatcher("/index.jsp").forward(request, response);
             }
-            dispatcher.forward(request, response);
-        } else {
-            request.setAttribute("error", "Please enter your email and password");
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
         }
     }
 }
