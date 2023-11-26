@@ -30,7 +30,7 @@
         class="light-style layout-menu-fixed"
         dir="ltr"
         data-theme="theme-default"
-        data-assets-path="../assets/"
+        data-assets-path="resources/assets/"
         data-template="vertical-menu-template-free"
 >
 <head>
@@ -45,7 +45,7 @@
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="resources/assets/img/favicon/favicon.ico" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -56,26 +56,26 @@
     />
 
     <!-- Icons. Uncomment required icon fonts -->
-    <link rel="stylesheet" href="../assets/vendor/fonts/boxicons.css" />
+    <link rel="stylesheet" href="resources/assets/vendor/fonts/boxicons.css" />
 
     <!-- Core CSS -->
-    <link rel="stylesheet" href="../assets/vendor/css/core.css" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="../assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
-    <link rel="stylesheet" href="../assets/css/demo.css" />
+    <link rel="stylesheet" href="resources/assets/vendor/css/core.css" class="template-customizer-core-css" />
+    <link rel="stylesheet" href="resources/assets/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+    <link rel="stylesheet" href="resources/assets/css/demo.css" />
 
     <!-- Vendors CSS -->
-    <link rel="stylesheet" href="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="resources/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
 
-    <link rel="stylesheet" href="../assets/vendor/libs/apex-charts/apex-charts.css" />
+    <link rel="stylesheet" href="resources/assets/vendor/libs/apex-charts/apex-charts.css" />
 
     <!-- Page CSS -->
 
     <!-- Helpers -->
-    <script src="../assets/vendor/js/helpers.js"></script>
+    <script src="resources/assets/vendor/js/helpers.js"></script>
 
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-    <script src="../assets/js/config.js"></script>
+    <script src="resources/assets/js/config.js"></script>
 </head>
 
 <body>
@@ -87,7 +87,7 @@
         <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
             <div class="app-brand demo">
                 <a href="index.html" class="app-brand-link">
-                    <img src="../assets/img/favicon/favicon.ico" alt="">
+                    <img src="resources/assets/img/favicon/favicon.ico" alt="">
                     <span class="app-brand-text demo menu-text fw-bolder ms-2">les affaires</span>
                 </a>
 
@@ -146,8 +146,8 @@
                             <input
                                     type="text"
                                     class="form-control border-0 shadow-none"
-                                    placeholder="Search..."
-                                    aria-label="Search..."
+                                    placeholder="Searchresources."
+                                    aria-label="Searchresources."
                             />
                         </div>
                     </div>
@@ -161,16 +161,16 @@
                         <li class="nav-item navbar-dropdown dropdown-user dropdown">
                             <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                                 <div class="avatar avatar-online">
-                                    <img src="../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                                    <img src="resources/assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
                                 </div>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li>
-                                    <a class="dropdown-item" href="#">
+                                    <a class="dropdown-item" href="">
                                         <div class="d-flex">
                                             <div class="flex-shrink-0 me-3">
                                                 <div class="avatar avatar-online">
-                                                    <img src="../assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
+                                                    <img src="resources/assets/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
                                                 </div>
                                             </div>
                                             <div class="flex-grow-1">
@@ -208,7 +208,7 @@
                                     <div class="dropdown-divider"></div>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="auth-login-basic.html">
+                                    <a class="dropdown-item" href="index.jsp">
                                         <i class="bx bx-power-off me-2"></i>
                                         <span class="align-middle">Log Out</span>
                                     </a>
@@ -253,28 +253,28 @@
             href=""
             target="_blank"
             class="btn btn-danger btn-buy-now"
-    ><img src="../assets/img/favicon/icons8-add-80.png" width="30px" height="30px" alt=""></a
+    ><img src="resources/assets/img/favicon/icons8-add-80.png" width="30px" height="30px" alt=""></a
     >
 </div>
 
 <!-- Core JS -->
 <!-- build:js assets/vendor/js/core.js -->
-<script src="../assets/vendor/libs/jquery/jquery.js"></script>
-<script src="../assets/vendor/libs/popper/popper.js"></script>
-<script src="../assets/vendor/js/bootstrap.js"></script>
-<script src="../assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+<script src="resources/assets/vendor/libs/jquery/jquery.js"></script>
+<script src="resources/assets/vendor/libs/popper/popper.js"></script>
+<script src="resources/assets/vendor/js/bootstrap.js"></script>
+<script src="resources/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
-<script src="../assets/vendor/js/menu.js"></script>
+<script src="resources/assets/vendor/js/menu.js"></script>
 <!-- endbuild -->
 
 <!-- Vendors JS -->
-<script src="../assets/vendor/libs/apex-charts/apexcharts.js"></script>
+<script src="resources/assets/vendor/libs/apex-charts/apexcharts.js"></script>
 
 <!-- Main JS -->
-<script src="../assets/js/main.js"></script>
+<script src="resources/assets/js/main.js"></script>
 
 <!-- Page JS -->
-<script src="../assets/js/dashboards-analytics.js"></script>
+<script src="assets/js/dashboards-analytics.js"></script>
 
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
