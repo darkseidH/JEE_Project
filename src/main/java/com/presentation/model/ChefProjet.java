@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.Set;
 
-@Entity
+
 @Setter
 @Getter
 public class ChefProjet extends User {
@@ -21,4 +21,4 @@ public class ChefProjet extends User {
 	public ChefProjet() {
 	}
 
-}//end ChefProjet
+}

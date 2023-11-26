@@ -1,31 +1,40 @@
 package com.data;
 
 import com.presentation.model.User;
-import jakarta.persistence.*;
+
+import java.sql.*;
 
 public class GestionUserData {
-    EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
+    Connection conn = MySqlConnection.openConnection();
 
-    public User findUserData(User user) {
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
+    public ResultSet findUserData(User user) {
+        ResultSet res=null;
+        String req = "SELECT * FROM User WHERE email = " + user.getEmail() + " and password = " + user.getPassword();
         try {
-            String query = "SELECT u FROM User u WHERE u.email = :email AND u.password = :password";
+            Statement st = conn.createStatement();
+            res=st.executeQuery(req);
+        } catch (SQLException e) {
 
-            TypedQuery<User> userCheck = entityManager.createQuery(query, User.class);
-            userCheck.setParameter("email", user.getEmail());
-            userCheck.setParameter("password", user.getPassword());
-
-            User foundUser = null;
-
-            if (!userCheck.getResultList().isEmpty()) {
-                foundUser = userCheck.getSingleResult();
-            }
-
-            return foundUser;
-        } finally {
-            entityManager.close();
         }
+        return res;
     }
 
+//    public List<User> getallChefs() {
+//        EntityManager entityManager = entityManagerFactory.createEntityManager();
+//        try {
+//            String query = "SELECT * FROM User u WHERE u.role = :role";
+//
+//            TypedQuery<User> chefs = entityManager.createQuery(query, User.class);
+//            chefs.setParameter("role", "chef");
+//
+//
+//            if (!chefs.getResultList().isEmpty()) {
+//                return chefs.getResultList();
+//            }
+//            return null;
+//        } finally {
+//            entityManager.close();
+//        }
+//    }
 }
 

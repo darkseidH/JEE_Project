@@ -16,7 +16,5 @@ public class Technologie {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nom;
-	@ManyToOne
-	public Projet projet;
 
 }//end Technologie
