@@ -69,17 +69,19 @@
     <link rel="stylesheet" href="resources/assets/vendor/libs/apex-charts/apex-charts.css" />
 
     <!-- Page CSS -->
-
+    <link rel="stylesheet" href="resources/css/cssDirecteur.css" />
     <!-- Helpers -->
     <script src="resources/assets/vendor/js/helpers.js"></script>
 
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="resources/assets/js/config.js"></script>
+
 </head>
 
 <body>
 <!-- Layout wrapper -->
+<div id="bleur">
 <div class="layout-wrapper layout-content-navbar">
     <div class="layout-container">
         <!-- Menu -->
@@ -248,13 +250,54 @@
 </div>
 <!-- / Layout wrapper -->
 
-<div class="buy-now">
+<div class="buy-now" >
     <a
-            href=""
-            target="_blank"
+
             class="btn btn-danger btn-buy-now"
+            onclick="toggle()"
     ><img src="resources/assets/img/favicon/icons8-add-80.png" width="30px" height="30px" alt=""></a
     >
+</div>
+</div>
+
+<div id="popup" class="container">
+    <form class="project-form" action="" method="POST">
+        <div id="div_Form">
+            <div>
+                <label for="nom_projet">Nom du Projet :</label>
+                <input type="text" id="nom_projet" name="nom_projet" class="form-control" required>
+
+                <label for="description_projet">Description du Projet :</label>
+                <textarea id="description_projet" name="description_projet" class="form-control" required></textarea>
+
+                <label for="client_projet">Client du Projet :</label>
+                <input type="text" id="client_projet" name="client_projet" class="form-control" required>
+
+                <label for="date_demarrage">Date de Démarrage :</label>
+                <input type="date" id="date_demarrage" name="date_demarrage" class="form-control" required>
+            </div>
+            <div>
+                <label for="date_livraison">Date de Livraison :</label>
+                <input type="date" id="date_livraison" name="date_livraison" class="form-control" required>
+
+                <label for="jours_developpement">Nombre de Jours de Développement :</label>
+                <input type="number" id="jours_developpement" name="jours_developpement" class="form-control" required>
+
+                <label for="chef_projet">Chef de Projet :</label>
+                <select id="chef_projet" name="chef_projet" class="form-control" required>
+                    <option value="chef1">Chef 1</option>
+                    <option value="chef2">Chef 2</option>
+                    <!-- Ajoutez d'autres options en fonction de vos chefs de projet -->
+                </select>
+
+            </div>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 23px;">
+            <button type="text" class="btn-fermer" onclick="closePopup()">fermer</button>
+            <button type="submit" class="btn-submit">Créer Projet</button>
+        </div>
+
+    </form>
 </div>
 
 <!-- Core JS -->
@@ -278,6 +321,23 @@
 
 <!-- Place this tag in your head or just before your close body tag. -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<script type="text/javascript">
+    function toggle(){
+        var blur = document.getElementById("bleur");
+        blur.classList.toggle("active1");
+        var popup = document.getElementById("popup");
+        popup.style.visibility = "visible";
+        popup.style.opacity = 1;
+    }
+    function closePopup(){
+        var blur = document.getElementById("bleur");
+        blur.classList.remove("active1");
+        var popup = document.getElementById("popup");
+        popup.style.visibility = "hidden";
+        popup.style.opacity = 0;
+    }
+</script>
 </body>
 </html>
 
