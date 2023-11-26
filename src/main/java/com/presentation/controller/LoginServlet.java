@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
             user.setEmail(email);
             user.setPassword(password);
             try {
-                user = gestionUser.findUser(user);
+                user = gestionUser.findUserWithEmailandPassword(user);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
