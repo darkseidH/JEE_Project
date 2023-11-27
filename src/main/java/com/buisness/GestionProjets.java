@@ -25,7 +25,7 @@ public class GestionProjets implements I_Gestion_Projet {
 
     @Override
     public boolean deleteProjet(Projet projet) {
-        return false;
+        return gestionProjetsData.deleteProjetData(projet);
     }
 
     @Override
@@ -34,6 +34,7 @@ public class GestionProjets implements I_Gestion_Projet {
         ArrayList<Projet> projets = new ArrayList<>();
         while (res.next()) {
             Projet projet = new Projet();
+            projet.setId(res.getLong("id"));
             projet.setNom(res.getString("nom"));
             projet.setNomClient(res.getString("nomClient"));
             projet.setChefProjet_id(res.getLong("chefProjet_id"));

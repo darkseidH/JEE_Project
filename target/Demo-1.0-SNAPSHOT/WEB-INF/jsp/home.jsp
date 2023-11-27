@@ -1,9 +1,6 @@
 <%@ page import="com.presentation.model.User" %>
 <%@ page import="com.buisness.GestionUser" %>
-<%@ page import="java.util.stream.Collectors" %>
-<%@ page import="java.sql.SQLException" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.data.GestionProjetsData" %>
 <%@ page import="com.buisness.GestionProjets" %>
 <%@ page import="com.presentation.model.Projet" %>
 <%--
@@ -85,6 +82,11 @@
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="resources/assets/js/config.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+
+    <!-- Include SweetAlert JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 </head>
 
@@ -251,10 +253,14 @@
                                             user = gestionUser.findUserWithId(user);
 
                                     %>
-                                    <tr>
-                                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong><%= projet.getNom() %></strong></td>
-                                        <td><%= projet.getNomClient() %></td>
-                                        <td><%= user.getFirst_name() + " " + user.getLast_name() %></td>
+                                    <tr  style="margin-bottom: 150px">
+                                        <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
+                                            <strong><%= projet.getNom() %>
+                                            </strong></td>
+                                        <td><%= projet.getNomClient() %>
+                                        </td>
+                                        <td><%= user.getFirst_name() + " " + user.getLast_name() %>
+                                        </td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                         <td>
                                             <div class="dropdown">
@@ -266,9 +272,8 @@
                                                     <a class="dropdown-item" href="javascript:void(0);"
                                                     ><i class="bx bx-edit-alt me-1"></i> Edit</a
                                                     >
-                                                    <a class="dropdown-item" href="javascript:void(0);"
-                                                    ><i class="bx bx-trash me-1"></i> Delete</a
-                                                    >
+                                                    <a class="dropdown-item" href="javascript:void(0);" onclick="confirmDelete('<%= projet.getId() %>')"
+                                                    ><i class="bx bx-trash me-1"></i> Delete</a>
                                                 </div>
                                             </div>
                                         </td>
@@ -395,6 +400,23 @@
         var popup = document.getElementById("popup");
         popup.style.visibility = "hidden";
         popup.style.opacity = 0;
+    }
+    function confirmDelete(projectId) {
+        // Use SweetAlert for the confirmation dialog
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // If the user clicks "Yes," redirect to the delete servlet with the project ID
+                window.location.href = 'deleteProject?projectId=' + projectId;
+            }
+        });
     }
 </script>
 </body>

@@ -58,6 +58,7 @@ public class GestionProjetsData {
             st.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
+            return false;
         }
 
         return true;
