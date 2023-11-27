@@ -20,7 +20,7 @@ public class GestionProjets implements I_Gestion_Projet {
 
     @Override
     public Projet updateProjet(Projet projet) {
-        return null;
+        return gestionProjetsData.updateProjetData(projet);
     }
 
     @Override
@@ -39,6 +39,9 @@ public class GestionProjets implements I_Gestion_Projet {
             projet.setNomClient(res.getString("nomClient"));
             projet.setChefProjet_id(res.getLong("chefProjet_id"));
             projet.setNombreJourDeveloppement(res.getInt("nombreJourDeveloppement"));
+            projet.setDateDemarrage(res.getDate("dateDemarrage"));
+            projet.setDateLiverison(res.getDate("dateLiverison"));
+            projet.setDescription(res.getString("description"));
             projets.add(projet);
         }
         return projets;

@@ -253,7 +253,7 @@
                                             user = gestionUser.findUserWithId(user);
 
                                     %>
-                                    <tr  style="margin-bottom: 150px">
+                                    <tr style="margin-bottom: 150px">
                                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
                                             <strong><%= projet.getNom() %>
                                             </strong></td>
@@ -270,9 +270,11 @@
                                                 </button>
                                                 <div class="dropdown-menu">
                                                     <a class="dropdown-item" href="javascript:void(0);"
+                                                       onclick="EditProject('<%= projet.getId() %>','<%= projet.getNom() %>', '<%= projet.getDescription() %>', '<%= projet.getNomClient() %>', '<%= projet.getDateDemarrage() %>', '<%= projet.getDateLiverison() %>', '<%= projet.getChefProjet_id() %>')"
                                                     ><i class="bx bx-edit-alt me-1"></i> Edit</a
                                                     >
-                                                    <a class="dropdown-item" href="javascript:void(0);" onclick="confirmDelete('<%= projet.getId() %>')"
+                                                    <a class="dropdown-item" href="javascript:void(0);"
+                                                       onclick="confirmDelete('<%= projet.getId() %>')"
                                                     ><i class="bx bx-trash me-1"></i> Delete</a>
                                                 </div>
                                             </div>
@@ -316,7 +318,7 @@
 </div>
 
 <div id="popup" class="container">
-    <form class="project-form" action="add_project" method="post">
+    <form class="project-form" action="add_project" method="post" id="form1">
         <div id="div_Form">
             <div>
                 <label for="nom_projet">Nom du Projet :</label>
@@ -358,7 +360,7 @@
         </div>
         <div style="display: flex; justify-content: space-between; margin-top: 23px;">
             <button type="text" class="btn-fermer" onclick="closePopup()">fermer</button>
-            <button type="submit" class="btn-submit">Créer Projet</button>
+            <button type="submit" class="btn-submit" id="btn-Submit-From1">Créer Projet</button>
         </div>
 
     </form>
@@ -387,20 +389,22 @@
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
 <script type="text/javascript">
-    function toggle(){
+    function toggle() {
         var blur = document.getElementById("bleur");
         blur.classList.toggle("active1");
         var popup = document.getElementById("popup");
         popup.style.visibility = "visible";
         popup.style.opacity = 1;
     }
-    function closePopup(){
+
+    function closePopup() {
         var blur = document.getElementById("bleur");
         blur.classList.remove("active1");
         var popup = document.getElementById("popup");
         popup.style.visibility = "hidden";
         popup.style.opacity = 0;
     }
+
     function confirmDelete(projectId) {
         // Use SweetAlert for the confirmation dialog
         Swal.fire({
@@ -417,6 +421,20 @@
                 window.location.href = 'deleteProject?projectId=' + projectId;
             }
         });
+    }
+
+    function EditProject(idP, nom, description, client, dateDebut, dateFin, chefProjet) {
+        toggle();
+        document.getElementById("btn-Submit-From1").innerHTML = "Modifier Projet";
+        document.getElementById("nom_projet").value = nom;
+        document.getElementById("description_projet").value = description;
+        document.getElementById("client_projet").value = client;
+        document.getElementById("date_demarrage").value = dateDebut;
+        document.getElementById("date_livraison").value = dateFin;
+        document.getElementById("chef_projet").value = chefProjet;
+        var form1 = document.getElementById("form1");
+        form1.action = "editProject?idProject=" + idP;
+
     }
 </script>
 </body>
