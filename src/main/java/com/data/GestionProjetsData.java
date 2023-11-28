@@ -77,4 +77,16 @@ public class GestionProjetsData {
         return res;
     }
 
+    public ResultSet findAllProjetsByStartNameData(String valueSearch) {
+        ResultSet res = null;
+        String req = "select * from Projet where nom like '" + valueSearch + "%';";
+        try {
+            PreparedStatement st = conn.prepareStatement(req);
+            res = st.executeQuery();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return res;
+    }
 }

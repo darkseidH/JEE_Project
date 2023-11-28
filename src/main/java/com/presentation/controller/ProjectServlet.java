@@ -2,6 +2,7 @@ package com.presentation.controller;
 
 import com.buisness.GestionProjets;
 import com.presentation.model.Projet;
+import com.presentation.model.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -9,9 +10,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
+import java.util.Map;
 
 @WebServlet(name = "ProjectServlet", value = "/add_project")
 public class ProjectServlet extends HttpServlet {

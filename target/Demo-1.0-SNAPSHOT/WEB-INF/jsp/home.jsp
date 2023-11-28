@@ -3,6 +3,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.buisness.GestionProjets" %>
 <%@ page import="com.presentation.model.Projet" %>
+<%@ page import="java.util.HashMap" %>
 <%--
   Created by IntelliJ IDEA.
   User: darkseid
@@ -88,6 +89,7 @@
     <!-- Include SweetAlert JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/com.google.code.gson/gson@2.8.8/dist/gson.min.js"></script>
 </head>
 
 <body>
@@ -162,6 +164,8 @@
                                         class="form-control border-0 shadow-none"
                                         placeholder="Searchresources."
                                         aria-label="Searchresources."
+                                        id="searchInput"
+                                        oninput="searchProjects()"
                                 />
                             </div>
                         </div>
@@ -242,7 +246,7 @@
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
-                                    <tbody class="table-border-bottom-0">
+                                    <tbody class="table-border-bottom-0" id="tbodyTable">
                                     <%
                                         GestionProjets gestionProjets = new GestionProjets();
                                         GestionUser gestionUser = new GestionUser();
@@ -406,7 +410,6 @@
     }
 
     function confirmDelete(projectId) {
-        // Use SweetAlert for the confirmation dialog
         Swal.fire({
             title: 'Are you sure?',
             text: 'You won\'t be able to revert this!',
@@ -417,7 +420,6 @@
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                // If the user clicks "Yes," redirect to the delete servlet with the project ID
                 window.location.href = 'deleteProject?projectId=' + projectId;
             }
         });
@@ -434,8 +436,31 @@
         document.getElementById("chef_projet").value = chefProjet;
         var form1 = document.getElementById("form1");
         form1.action = "editProject?idProject=" + idP;
-
     }
+
+
+    function searchProjects() {
+        const searchInput = document.getElementById('searchInput');
+        var inputValue = searchInput.value;
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "search_project_dircteur?valueSearch=" + encodeURIComponent(inputValue), true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                updateTableContent(xhr.responseText);
+            }
+        };
+        xhr.send();
+    }
+
+    function updateTableContent(responseText) {
+        var Ttable = document.getElementById('tbodyTable');
+        Ttable.innerHTML = responseText;
+    }
+
+
+
+
+
 </script>
 </body>
 </html>
