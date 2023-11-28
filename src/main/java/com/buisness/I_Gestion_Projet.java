@@ -10,4 +10,6 @@ public interface I_Gestion_Projet {
     public Projet updateProjet(Projet projet);
     public boolean deleteProjet(Projet projet);
     public List<Projet> findAllProjets() throws SQLException;
+
+    List<Projet> findAllProjetsByEmailChef(String email);
 }

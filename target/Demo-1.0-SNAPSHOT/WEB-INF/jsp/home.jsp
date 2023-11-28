@@ -348,7 +348,7 @@
                 <select id="chef_projet" name="chef_projet" class="form-control" required>
                     <%
                         User user = new User();
-                        user.setRole("chef");
+                        user.setRole("chefProjet");
 
                         List<User> chefs = new GestionUser().findUsersWithRole(user);
                         for (User chef : chefs) {

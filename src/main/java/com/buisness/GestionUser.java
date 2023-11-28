@@ -56,7 +56,6 @@ public class GestionUser implements I_Gestion_User{
         }
         return users;
     }
-
     @Override
     public User findUserWithId(User user) throws SQLException {
         try {
@@ -74,6 +73,4 @@ public class GestionUser implements I_Gestion_User{
         }
         return user;
     }
-
-
 }

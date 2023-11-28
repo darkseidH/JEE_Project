@@ -1,7 +1,9 @@
 package com.presentation.controller;
 
 
+import com.buisness.GestionProjets;
 import com.buisness.GestionUser;
+import com.presentation.model.Projet;
 import com.presentation.model.User;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -13,11 +15,12 @@ import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 @WebServlet(name = "loginServlet", value = "/login")
 public class LoginServlet extends HttpServlet {
     GestionUser gestionUser = new GestionUser();
-
+    GestionProjets gestionProjet = new GestionProjets();
     public void init() throws ServletException {
         super.init();
     }
@@ -46,6 +49,8 @@ public class LoginServlet extends HttpServlet {
                         dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/home.jsp");
                     }
                     if (user.getRole().equals("chefProjet")) {
+                        HashMap<Projet, User> projets = gestionProjet.mapChefProjets(email);
+                        request.setAttribute("projets", projets);
                         dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/home_chef.jsp");
                     }
                     if (user.getRole().equals("developer")) {

@@ -89,4 +89,18 @@ public class GestionProjetsData {
 
         return res;
     }
+
+    public ResultSet findAllProjetsByEmailChefData(String email) {
+        ResultSet res = null;
+        String req = "select * from Projet where chefProjet_id = (select id from User where email = ?);";
+        try {
+            PreparedStatement st = conn.prepareStatement(req);
+            st.setString(1, email);
+            res = st.executeQuery();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return res;
+    }
 }
