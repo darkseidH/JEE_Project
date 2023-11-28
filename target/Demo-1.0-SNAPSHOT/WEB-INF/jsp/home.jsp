@@ -1,7 +1,5 @@
 <%@ page import="com.presentation.model.User" %>
-<%@ page import="com.buisness.GestionUser" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.buisness.GestionProjets" %>
 <%@ page import="com.presentation.model.Projet" %>
 <%@ page import="java.util.HashMap" %>
 <%--
@@ -13,25 +11,16 @@
 --%>
 <%
     response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-    if (session.getAttribute("email") == null) {
+    if (session.getAttribute("email") == null || session.getAttribute("id") == null) {
         response.sendRedirect("index.jsp");
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        if (session.getAttribute("email") == null || session.getAttribute("id") == null) {
+            response.sendRedirect("index.jsp");
+        }
     }
-%>>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+%>
 <!DOCTYPE html>
 
-<!-- =========================================================
-* Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
-==============================================================
-
-* Product Page: https://themeselection.com/products/sneat-bootstrap-html-admin-template/
-* Created by: ThemeSelection
-* License: You must have a valid license purchased in order to legally use the theme for your project.
-* Copyright ThemeSelection (https://themeselection.com)
-
-=========================================================
--->
-<!-- beautify ignore:start -->
 <html
         lang="en"
         class="light-style layout-menu-fixed"
@@ -88,8 +77,6 @@
 
     <!-- Include SweetAlert JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/com.google.code.gson/gson@2.8.8/dist/gson.min.js"></script>
 </head>
 
 <body>
@@ -101,7 +88,7 @@
 
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
                 <div class="app-brand demo">
-                    <a href="index.html" class="app-brand-link">
+                    <a href="home" class="app-brand-link">
                         <img src="resources/assets/img/favicon/favicon.ico" alt="">
                         <span class="app-brand-text demo menu-text fw-bolder ms-2">les Affaires</span>
                     </a>
@@ -117,24 +104,17 @@
                 <ul class="menu-inner py-1">
                     <!-- Dashboard -->
                     <li class="menu-item active">
-                        <a href="index.html" class="menu-link">
+                        <a href="home" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">Dashboard</div>
                         </a>
                     </li>
 
                     <li class="menu-item">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                        <a href="accountSetting" class="menu-link menu-toggle">
                             <i class="menu-icon tf-icons bx bx-dock-top"></i>
                             <div data-i18n="Account Settings">Account Settings</div>
                         </a>
-                        <ul class="menu-sub">
-                            <li class="menu-item">
-                                <a href="pages-account-settings-account.html" class="menu-link">
-                                    <div data-i18n="Account">Account</div>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
 
                 </ul>
@@ -169,13 +149,10 @@
                                 />
                             </div>
                         </div>
-                        <!-- /Search -->
+
 
                         <ul class="navbar-nav flex-row align-items-center ms-auto">
-                            <!-- Place this tag where you want the button to render. -->
 
-
-                            <!-- User -->
                             <li class="nav-item navbar-dropdown dropdown-user dropdown">
                                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
                                    data-bs-toggle="dropdown">
@@ -196,7 +173,7 @@
                                                 </div>
                                                 <div class="flex-grow-1">
                                                     <span class="fw-semibold d-block">John Doe</span>
-                                                    <small class="text-muted">Admin</small>
+                                                    <small class="text-muted">Directeur</small>
                                                 </div>
                                             </div>
                                         </a>
@@ -205,7 +182,7 @@
                                         <div class="dropdown-divider"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item" href="accountSetting">
                                             <i class="bx bx-cog me-2"></i>
                                             <span class="align-middle">Settings</span>
                                         </a>
@@ -248,14 +225,9 @@
                                     </thead>
                                     <tbody class="table-border-bottom-0" id="tbodyTable">
                                     <%
-                                        GestionProjets gestionProjets = new GestionProjets();
-                                        GestionUser gestionUser = new GestionUser();
-                                        List<Projet> projets = gestionProjets.findAllProjets();
-                                        for (Projet projet : projets) {
-                                            User user = new User();
-                                            user.setId(projet.getChefProjet_id());
-                                            user = gestionUser.findUserWithId(user);
-
+                                        HashMap<Projet, User> projets = (HashMap<Projet, User>) request.getAttribute("projets");
+                                        for (Projet projet : projets.keySet()) {
+                                            User user = projets.get(projet);
                                     %>
                                     <tr style="margin-bottom: 150px">
                                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
@@ -313,7 +285,6 @@
 
     <div class="buy-now">
         <a
-
                 class="btn btn-danger btn-buy-now"
                 onclick="toggle()"
         ><img src="resources/assets/img/favicon/icons8-add-80.png" width="30px" height="30px" alt=""></a
@@ -334,23 +305,17 @@
                 <label for="client_projet">Client du Projet :</label>
                 <input type="text" id="client_projet" name="client_projet" class="form-control" required>
 
-                <label for="date_demarrage">Date de Démarrage :</label>
+                <label for="date_demarrage">Date de Demarrage :</label>
                 <input type="date" id="date_demarrage" name="date_demarrage" class="form-control" required>
             </div>
             <div>
                 <label for="date_livraison">Date de Livraison :</label>
                 <input type="date" id="date_livraison" name="date_livraison" class="form-control" required>
 
-                <%--                <label for="jours_developpement">Nombre de Jours de Développement :</label>--%>
-                <%--                <input type="number" id="jours_developpement" name="jours_developpement" class="form-control" required>--%>
-
                 <label for="chef_projet">Chef de Projet :</label>
                 <select id="chef_projet" name="chef_projet" class="form-control" required>
                     <%
-                        User user = new User();
-                        user.setRole("chef");
-
-                        List<User> chefs = new GestionUser().findUsersWithRole(user);
+                        List<User> chefs = (List<User>) request.getAttribute("users");
                         for (User chef : chefs) {
                     %>
                     <option value="<%= chef.getId() %>"><%= chef.getFirst_name() + " " + chef.getLast_name() %>
@@ -363,8 +328,8 @@
             </div>
         </div>
         <div style="display: flex; justify-content: space-between; margin-top: 23px;">
-            <button type="text" class="btn-fermer" onclick="closePopup()">fermer</button>
-            <button type="submit" class="btn-submit" id="btn-Submit-From1">Créer Projet</button>
+            <button type="button" class="btn-fermer" onclick="closePopup()">Fermer</button>
+            <button type="submit" class="btn-submit" id="btn-Submit-From1">Valider</button>
         </div>
 
     </form>
@@ -438,14 +403,13 @@
         form1.action = "editProject?idProject=" + idP;
     }
 
-
     function searchProjects() {
         const searchInput = document.getElementById('searchInput');
         var inputValue = searchInput.value;
         var xhr = new XMLHttpRequest();
         xhr.open("GET", "search_project_dircteur?valueSearch=" + encodeURIComponent(inputValue), true);
         xhr.onreadystatechange = function () {
-            if (xhr.readyState == 4 && xhr.status == 200) {
+            if (xhr.readyState === 4 && xhr.status === 200) {
                 updateTableContent(xhr.responseText);
             }
         };
@@ -456,11 +420,6 @@
         var Ttable = document.getElementById('tbodyTable');
         Ttable.innerHTML = responseText;
     }
-
-
-
-
-
 </script>
 </body>
 </html>

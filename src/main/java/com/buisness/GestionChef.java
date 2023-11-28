@@ -25,17 +25,17 @@ public class GestionChef implements I_Gestion_User {
     }
 
     @Override
-    public User findUserWithEmailandPassword(User user) throws SQLException {
+    public User findUserWithEmail(User user) throws SQLException {
         return null;
     }
 
     @Override
-    public List<User> findUsersWithRole(User user) throws SQLException {
+    public List<User> findUsersWithRole(String role) throws SQLException {
         return null;
     }
 
     @Override
-    public User findUserWithId(User user) throws SQLException {
+    public User findUserWithId(Long id) throws SQLException {
         return null;
     }
 }

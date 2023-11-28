@@ -72,19 +72,17 @@ public class GestionProjets implements I_Gestion_Projet {
     }
 
     public HashMap<Projet, User> mapProjectsToChef() {
-        GestionProjets gestionProjets = new GestionProjets();
         GestionUser gestionUser = new GestionUser();
         List<Projet> projets;
         HashMap<Projet, User> projetsChef;
         try {
-            projets = gestionProjets.findAllProjets();
+            projets = findAllProjets();
             projetsChef = projets.stream().collect(
                     HashMap::new,
                     (map, projet) -> {
                         try {
-                            User user = new User();
-                            user.setId(projet.getChefProjet_id());
-                            user = gestionUser.findUserWithId(user);
+                            User user;
+                            user = gestionUser.findUserWithId(projet.getChefProjet_id());
                             map.put(projet, user);
                         } catch (SQLException e) {
                             throw new RuntimeException("Error while processing project: " + projet.getId(), e);
@@ -97,7 +95,7 @@ public class GestionProjets implements I_Gestion_Projet {
         }
         projetsChef.forEach((projet, user) -> System.out.println(projet + " " + user));
         return projetsChef;
-}
+    }
 
     public HashMap<Projet, User> mapProjectsNameToChef(String name) {
         GestionProjets gestionProjets = new GestionProjets();
@@ -109,9 +107,8 @@ public class GestionProjets implements I_Gestion_Projet {
                 HashMap::new,
                 (map, projet) -> {
                     try {
-                        User user = new User();
-                        user.setId(projet.getChefProjet_id());
-                        user = gestionUser.findUserWithId(user);
+                        User user;
+                        user = gestionUser.findUserWithId(projet.getChefProjet_id());
                         map.put(projet, user);
                     } catch (SQLException e) {
                         throw new RuntimeException("Error while processing project: " + projet.getId(), e);

@@ -11,9 +11,9 @@ public interface I_Gestion_User {
 
     User updateUser(User user);
 
-    User findUserWithEmailandPassword(User user) throws SQLException;
-    List<User> findUsersWithRole(User user) throws SQLException;
+    User findUserWithEmail(User user) throws SQLException;
+    List<User> findUsersWithRole(String role) throws SQLException;
 
-    User findUserWithId(User user) throws SQLException;
+    User findUserWithId(Long id) throws SQLException;
 }
 
