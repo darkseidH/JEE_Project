@@ -111,9 +111,9 @@
                     </li>
 
                     <li class="menu-item">
-                        <a href="accountSetting" class="menu-link menu-toggle">
-                            <i class="menu-icon tf-icons bx bx-dock-top"></i>
-                            <div data-i18n="Account Settings">Account Settings</div>
+                        <a href="accountSetting" class="menu-link">
+                            <i class="bx bx-cog me-2"></i>
+                            <div data-i18n="Analytics">Account</div>
                         </a>
                     </li>
 

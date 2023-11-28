@@ -95,27 +95,18 @@
 
                 <ul class="menu-inner py-1">
                     <!-- Dashboard -->
-                    <li class="menu-item active">
+                    <li class="menu-item">
                         <a href="home" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
                             <div data-i18n="Analytics">Dashboard</div>
                         </a>
                     </li>
-
-                    <li class="menu-item">
-                        <a href="javascript:void(0);" class="menu-link menu-toggle">
-                            <i class="menu-icon tf-icons bx bx-dock-top"></i>
-                            <div data-i18n="Account Settings">Account Settings</div>
+                    <li class="menu-item active">
+                        <a href="accountSetting" class="menu-link">
+                            <i class="bx bx-cog me-2"></i>
+                            <div data-i18n="Analytics">Account</div>
                         </a>
-                        <ul class="menu-sub">
-                            <li class="menu-item">
-                                <a href="pages-account-settings-account.html" class="menu-link">
-                                    <div data-i18n="Account">Account</div>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
-
                 </ul>
             </aside>
 

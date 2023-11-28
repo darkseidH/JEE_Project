@@ -9,6 +9,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @WebServlet(name = "homeServlet", value = "/home")
 public class HomeServlet extends HttpServlet {
+    
     GestionUser gestionUser = new GestionUser();
     GestionProjets gestionProjet = new GestionProjets();
 
@@ -26,15 +28,41 @@ public class HomeServlet extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        HashMap<Projet, User> projets = gestionProjet.mapProjectsToChef();
-        List<User> users;
-        try {
-            users = gestionUser.findUsersWithRole("chef");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        HttpSession session = request.getSession();
+        String targetPage;
+        String email = session.getAttribute("email").toString();
+        switch (session.getAttribute("role").toString()) {
+            case "director":
+                HashMap<Projet, User> projets = gestionProjet.mapProjectsToChef();
+                List<User> users;
+                try {
+                    users = gestionUser.findUsersWithRole("chef");
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                request.setAttribute("projets", projets);
+                request.setAttribute("users", users);
+                targetPage = "/WEB-INF/jsp/home.jsp";
+                break;
+            case "chef":
+                HashMap<Projet, User> projets1 = gestionProjet.mapChefProjets(email);
+                List<User> users1;
+                try {
+                    users1 = gestionUser.findUsersWithRole("chef");
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+                request.setAttribute("projets", projets1);
+                request.setAttribute("users", users1);
+                targetPage = "/WEB-INF/jsp/home_chef.jsp";
+                break;
+            case "developer":
+                targetPage = "/WEB-INF/jsp/home_dev.jsp";
+                break;
+            default:
+                targetPage = "/WEB-INF/jsp/error.jsp";
+                break;
         }
-        request.setAttribute("projets", projets);
-        request.setAttribute("users", users);
-        request.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(request, response);
+        request.getRequestDispatcher(targetPage).forward(request, response);
     }
 }
