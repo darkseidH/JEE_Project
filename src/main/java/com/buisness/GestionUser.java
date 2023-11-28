@@ -61,7 +61,6 @@ public class GestionUser implements I_Gestion_User {
         }
         return users;
     }
-
     @Override
     public User findUserWithId(Long id) throws SQLException {
         User user = new User();
@@ -80,6 +79,4 @@ public class GestionUser implements I_Gestion_User {
         }
         return user;
     }
-
-
 }

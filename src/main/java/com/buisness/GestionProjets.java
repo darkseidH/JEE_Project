@@ -49,6 +49,30 @@ public class GestionProjets implements I_Gestion_Projet {
 
     }
 
+    @Override
+    public List<Projet> findAllProjetsByEmailChef(String email) {
+        ResultSet res = gestionProjetsData.findAllProjetsByEmailChefData(email);
+        ArrayList<Projet> projets = new ArrayList<>();
+        try {
+            while (res.next()) {
+                Projet projet = new Projet();
+                projet.setId(res.getLong("id"));
+                projet.setNom(res.getString("nom"));
+                projet.setNomClient(res.getString("nomClient"));
+                projet.setChefProjet_id(res.getLong("chefProjet_id"));
+                projet.setNombreJourDeveloppement(res.getInt("nombreJourDeveloppement"));
+                projet.setDateDemarrage(res.getDate("dateDemarrage"));
+                projet.setDateLiverison(res.getDate("dateLiverison"));
+                projet.setDescription(res.getString("description"));
+                projets.add(projet);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return projets;
+    }
+
+
     public List<Projet> findAllProjetsByStartName(String valueSearch) {
         ResultSet res = gestionProjetsData.findAllProjetsByStartNameData(valueSearch);
         ArrayList<Projet> projets = new ArrayList<>();
@@ -121,4 +145,27 @@ public class GestionProjets implements I_Gestion_Projet {
     }
 
 
+    public HashMap<Projet, User> mapChefProjets(String email) {
+        GestionProjets gestionProjets = new GestionProjets();
+        GestionUser gestionUser = new GestionUser();
+        List<Projet> projets;
+        HashMap<Projet, User> projetsChef;
+        projets = gestionProjets.findAllProjetsByEmailChef(email);
+        projetsChef = projets.stream().collect(
+                HashMap::new,
+                (map, projet) -> {
+                    try {
+                        User user = new User();
+                        user.setId(projet.getChefProjet_id());
+                        user = gestionUser.findUserWithId(user);
+                        map.put(projet, user);
+                    } catch (SQLException e) {
+                        throw new RuntimeException("Error while processing project: " + projet.getId(), e);
+                    }
+                },
+                HashMap::putAll
+        );
+        projetsChef.forEach((projet, user) -> System.out.println(projet + " " + user));
+        return projetsChef;
+    }
 }
