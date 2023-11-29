@@ -49,7 +49,7 @@ public class GestionProjets implements I_Gestion_Projet {
 
     }
 
-    @Override
+
     public List<Projet> findAllProjetsByEmailChef(String email) {
         ResultSet res = gestionProjetsData.findAllProjetsByEmailChefData(email);
         ArrayList<Projet> projets = new ArrayList<>();

@@ -53,6 +53,7 @@ public class LoginServlet extends HttpServlet {
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
             } else {
                 session.setAttribute("id", user.getId());
+                session.setAttribute("name", user.getFirst_name() + " " + user.getLast_name());
                 session.setAttribute("email", user.getEmail());
                 session.setAttribute("role", user.getRole());
                 String targetPage;

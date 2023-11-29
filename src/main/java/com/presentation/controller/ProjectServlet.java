@@ -1,6 +1,7 @@
 package com.presentation.controller;
 
 import com.buisness.GestionProjets;
+import com.buisness.GestionUser;
 import com.presentation.model.Projet;
 import com.presentation.model.User;
 import jakarta.servlet.ServletException;
@@ -10,16 +11,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @WebServlet(name = "ProjectServlet", value = "/add_project")
 public class ProjectServlet extends HttpServlet {
     GestionProjets gestionProjets = new GestionProjets();
+    GestionUser gestionUser = new GestionUser();
 
     public void init() throws ServletException {
         super.init();
@@ -42,6 +44,15 @@ public class ProjectServlet extends HttpServlet {
         projet.setNombreJourDeveloppement(duree);
         projet.setChefProjet_id(id);
         gestionProjets.addProjet(projet);
+        HashMap<Projet, User> projets = gestionProjets.mapProjectsToChef();
+        List<User> users;
+        try {
+            users = gestionUser.findUsersWithRole("chef");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        request.setAttribute("projets", projets);
+        request.setAttribute("users", users);
         request.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(request, response);
     }
 }

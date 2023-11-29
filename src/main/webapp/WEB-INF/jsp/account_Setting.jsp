@@ -80,7 +80,7 @@
 
             <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
                 <div class="app-brand demo">
-                    <a href="index.html" class="app-brand-link">
+                    <a href="home" class="app-brand-link">
                         <img src="resources/assets/img/favicon/favicon.ico" alt="">
                         <span class="app-brand-text demo menu-text fw-bolder ms-2">les Affaires</span>
                     </a>
@@ -106,7 +106,15 @@
                             <i class="bx bx-cog me-2"></i>
                             <div data-i18n="Analytics">Account</div>
                         </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="pages-account-settings-account.html" class="menu-link">
+                                    <div data-i18n="Account">Account</div>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
+
                 </ul>
             </aside>
 
@@ -160,8 +168,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <span class="fw-semibold d-block">John Doe</span>
-                                                    <small class="text-muted">Admin</small>
+                                                    <span class="fw-semibold d-block"><%= session.getAttribute("name")%></span>
+                                                    <small class="text-muted"><%= session.getAttribute("role")%>
                                                 </div>
                                             </div>
                                         </a>
@@ -195,11 +203,34 @@
 
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <div class="card">
-                            <h5 class="card-header">Changer mots de passe</h5>
+                            <h5 class="card-header">Changer Infos Personnel</h5>
                             <div class="card-body">
                                 <input name="error" type="hidden" id="error"
                                        value="<%= request.getAttribute("error") %>">
-                                <form class="row g-3 needs-validation" onsubmit="accountSetting" method="post">
+                                <form class="row g-3 needs-validation" onsubmit="accountSetting" method="post"
+                                      name="formInfoPerso">
+                                    <div class="col-md-4">
+                                        <label for="name" class="form-label">Nom</label>
+                                        <input type="text" class="form-control" id="name" name="name"
+                                               required>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="text" class="form-control" id="email" name="email"
+                                               required>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn-primary" type="submit">Changer</button>
+                                    </div>
+                                </form>
+                                <form class="row g-3 needs-validation" onsubmit="accountSetting" method="post"
+                                      name="formPassword">
                                     <div class="col-md-4">
                                         <label for="oldPassword" class="form-label">Ancien mot de passe</label>
                                         <input type="password" class="form-control" id="oldPassword" name="oldPassword"
@@ -272,7 +303,7 @@
                 </div>
             </div>
             <div style="display: flex; justify-content: space-between; margin-top: 23px;">
-                <button type="text" class="btn-fermer" onclick="closePopup()">fermer</button>
+                <button type="text" class="btn-fermer" onclick="closePopup()">Fermer</button>
                 <button type="submit" class="btn-submit">Créer Projet</button>
             </div>
 
@@ -288,7 +319,7 @@
     <script src="resources/assets/js/main.js"></script>
     <script src="assets/js/dashboards-analytics.js"></script>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <%
+        <%
         System.out.println(request.getAttribute("error"));
         %>
 
@@ -327,6 +358,7 @@
                     console.error('Unhandled error value:', error);
             }
         }
+
         console.log('<%= request.getAttribute("error") %>')
         showSweetAlert('<%= request.getAttribute("error") %>');
     </script>

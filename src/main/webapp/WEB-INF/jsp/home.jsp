@@ -172,8 +172,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <span class="fw-semibold d-block">John Doe</span>
-                                                    <small class="text-muted">Directeur</small>
+                                                    <span class="fw-semibold d-block"><%= session.getAttribute("name")%></span>
+                                                    <small class="text-muted"><%= session.getAttribute("role")%>
+                                                    </small>
                                                 </div>
                                             </div>
                                         </a>
