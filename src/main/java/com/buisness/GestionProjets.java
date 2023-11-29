@@ -155,9 +155,8 @@ public class GestionProjets implements I_Gestion_Projet {
                 HashMap::new,
                 (map, projet) -> {
                     try {
-                        User user = new User();
-                        user.setId(projet.getChefProjet_id());
-                        user = gestionUser.findUserWithId(user);
+                        User user;
+                        user = gestionUser.findUserWithId(projet.getChefProjet_id());
                         map.put(projet, user);
                     } catch (SQLException e) {
                         throw new RuntimeException("Error while processing project: " + projet.getId(), e);
