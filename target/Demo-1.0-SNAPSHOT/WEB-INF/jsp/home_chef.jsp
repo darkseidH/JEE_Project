@@ -1,5 +1,4 @@
 <%@ page import="com.presentation.model.User" %>
-<%@ page import="java.util.List" %>
 <%@ page import="com.presentation.model.Projet" %>
 <%@ page import="java.util.HashMap" %>
 <%--
@@ -218,7 +217,7 @@
                                     <tr>
                                         <th>Projet</th>
                                         <th>Client</th>
-                                        <th>Chef Projet</th>
+                                        <th>Date de livraison</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
@@ -226,33 +225,19 @@
                                     <tbody class="table-border-bottom-0" id="tbodyTable">
                                     <%
                                         HashMap<Projet, User> projets = (HashMap<Projet, User>) request.getAttribute("projets");
-                                        for (Projet projet : projets.keySet()) {
-                                            User user = projets.get(projet);
-                                    %>
+                                        for (Projet projet : projets.keySet()) {%>
                                     <tr style="margin-bottom: 150px">
                                         <td><i class="fab fa-angular fa-lg text-danger me-3"></i>
                                             <strong><%= projet.getNom() %>
                                             </strong></td>
                                         <td><%= projet.getNomClient() %>
                                         </td>
-                                        <td><%= user.getFirst_name() + " " + user.getLast_name() %>
+                                        <td><%= projet.getDateLiverison() %>
                                         </td>
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                         <td>
                                             <div class="dropdown">
-                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                                        data-bs-toggle="dropdown">
-                                                    <i class="bx bx-dots-vertical-rounded"></i>
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="javascript:void(0);"
-                                                       onclick="EditProject('<%= projet.getId() %>','<%= projet.getNom() %>', '<%= projet.getDescription() %>', '<%= projet.getNomClient() %>', '<%= projet.getDateDemarrage() %>', '<%= projet.getDateLiverison() %>', '<%= projet.getChefProjet_id() %>')"
-                                                    ><i class="bx bx-edit-alt me-1"></i> Edit</a
-                                                    >
-                                                    <a class="dropdown-item" href="javascript:void(0);"
-                                                       onclick="confirmDelete('<%= projet.getId() %>')"
-                                                    ><i class="bx bx-trash me-1"></i> Delete</a>
-                                                </div>
+                                                <a href="DetailProjectChef?projectId=<%=projet.getId()%>"> <img src="resources/images/img.png" height="25px" width="25px" style="margin-left: 20px;">  </a>
                                             </div>
                                         </td>
                                     </tr>
@@ -308,56 +293,12 @@
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
 <script type="text/javascript">
-    function toggle() {
-        var blur = document.getElementById("bleur");
-        blur.classList.toggle("active1");
-        var popup = document.getElementById("popup");
-        popup.style.visibility = "visible";
-        popup.style.opacity = 1;
-    }
-
-    function closePopup() {
-        var blur = document.getElementById("bleur");
-        blur.classList.remove("active1");
-        var popup = document.getElementById("popup");
-        popup.style.visibility = "hidden";
-        popup.style.opacity = 0;
-    }
-
-    function confirmDelete(projectId) {
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'You won\'t be able to revert this!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = 'deleteProject?projectId=' + projectId;
-            }
-        });
-    }
-
-    function EditProject(idP, nom, description, client, dateDebut, dateFin, chefProjet) {
-        toggle();
-        document.getElementById("btn-Submit-From1").innerHTML = "Modifier Projet";
-        document.getElementById("nom_projet").value = nom;
-        document.getElementById("description_projet").value = description;
-        document.getElementById("client_projet").value = client;
-        document.getElementById("date_demarrage").value = dateDebut;
-        document.getElementById("date_livraison").value = dateFin;
-        document.getElementById("chef_projet").value = chefProjet;
-        var form1 = document.getElementById("form1");
-        form1.action = "editProject?idProject=" + idP;
-    }
 
     function searchProjects() {
         const searchInput = document.getElementById('searchInput');
         var inputValue = searchInput.value;
         var xhr = new XMLHttpRequest();
-        xhr.open("GET", "search_project_dircteur?valueSearch=" + encodeURIComponent(inputValue), true);
+        xhr.open("GET", "search_project_chef?valueSearch=" + encodeURIComponent(inputValue), true);
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 updateTableContent(xhr.responseText);

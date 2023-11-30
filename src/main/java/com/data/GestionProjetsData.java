@@ -103,4 +103,64 @@ public class GestionProjetsData {
 
         return res;
     }
+
+    public ResultSet findAllProjetsByStartNameTochefData(String name, String email) {
+        ResultSet res = null;
+        String req = "select * from Projet where nom like '" + name + "%' and chefProjet_id = (select id from User where email = ?);";
+        try {
+            PreparedStatement st = conn.prepareStatement(req);
+            st.setString(1, email);
+            res = st.executeQuery();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return res;
+    }
+
+    public ResultSet findAllProjetsByStartNameToDevloperData(String name, String email) {
+        ResultSet res = null;
+
+        return res;
+
+    }
+
+    public Projet getProjetByIdData(long l) {
+        ResultSet res = null;
+        Projet projet = new Projet();
+        String req = "select * from Projet where id = ?;";
+        try {
+            PreparedStatement st = conn.prepareStatement(req);
+            st.setLong(1, l);
+            res = st.executeQuery();
+            while (res.next()) {
+                projet.setId(res.getLong("id"));
+                projet.setDateDemarrage(res.getDate("dateDemarrage"));
+                projet.setDateLiverison(res.getDate("dateLiverison"));
+                projet.setDescription(res.getString("description"));
+                projet.setMethodologie(res.getString("methodologie"));
+                projet.setNom(res.getString("nom"));
+                projet.setNomClient(res.getString("nomClient"));
+                projet.setNombreJourDeveloppement(res.getInt("nombreJourDeveloppement"));
+                projet.setChefProjet_id(res.getLong("chefProjet_id"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return projet;
+    }
+
+    public Projet addMethodologieData(String methodologie, long l) {
+        String query = "update Projet set methodologie = ? where id = ?;";
+        try {
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setString(1, methodologie);
+            st.setLong(2, l);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
 }

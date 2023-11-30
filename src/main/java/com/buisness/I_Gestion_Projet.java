@@ -11,4 +11,8 @@ public interface I_Gestion_Projet {
     boolean deleteProjet(Projet projet);
     List<Projet> findAllProjets() throws SQLException;
     List<Projet> findAllProjetsByEmailChef(String email);
+
+    Projet getProjetById(long l);
+
+    void addMethodologieData(String methodologie, long l);
 }
