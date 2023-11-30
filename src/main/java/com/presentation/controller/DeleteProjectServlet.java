@@ -11,8 +11,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@WebServlet(name = "DeleteServlet", value = "/deleteProject")
-public class DeleteProject extends HttpServlet {
+@WebServlet(name = "DeleteProjectServlet", value = "/deleteProject")
+public class DeleteProjectServlet extends HttpServlet {
     GestionProjets gestionProjets = new GestionProjets();
 
 
@@ -24,15 +24,11 @@ public class DeleteProject extends HttpServlet {
         Long projectId = Long.parseLong(request.getParameter("projectId"));
         Projet projet = new Projet();
         projet.setId(projectId);
-        if (gestionProjets.deleteProjet(projet)){
+        if (gestionProjets.deleteProjet(projet)) {
             request.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(request, response);
 
-        }else {
+        } else {
             request.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(request, response);
         }
-
-
     }
-
-
 }

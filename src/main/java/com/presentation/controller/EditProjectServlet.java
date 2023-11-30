@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.glassfish.jaxb.core.v2.TODO;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -43,6 +44,8 @@ public class EditProjectServlet extends HttpServlet {
         gestionProjets.updateProjet(projet);
         request.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(request, response);
     }
-
+    // TODO : add logic to charge projects
+    // FIXME : verifier changement de chef de projet
+    //
 
 }

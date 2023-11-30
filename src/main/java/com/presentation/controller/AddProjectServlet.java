@@ -18,8 +18,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 
-@WebServlet(name = "ProjectServlet", value = "/add_project")
-public class ProjectServlet extends HttpServlet {
+@WebServlet(name = "AddProjectServlet", value = "/add_project")
+public class AddProjectServlet extends HttpServlet {
     GestionProjets gestionProjets = new GestionProjets();
     GestionUser gestionUser = new GestionUser();
 

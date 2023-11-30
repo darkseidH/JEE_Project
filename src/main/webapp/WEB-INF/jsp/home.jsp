@@ -117,6 +117,13 @@
                         </a>
                     </li>
 
+                    <li class="menu-item">
+                        <a href="gestion_Personnel" class="menu-link">
+                            <i class="bx bx-cog me-2"></i>
+                            <div data-i18n="Analytics">Gestion Personnel</div>
+                        </a>
+                    </li>
+
                 </ul>
             </aside>
 
@@ -172,7 +179,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <span class="fw-semibold d-block"><%= session.getAttribute("name")%></span>
+                                                    <span class="fw-semibold d-block"><%= session.getAttribute("lastName") + " " + session.getAttribute("lastName") %>></span>
                                                     <small class="text-muted"><%= session.getAttribute("role")%>
                                                     </small>
                                                 </div>
@@ -373,6 +380,8 @@
         var popup = document.getElementById("popup");
         popup.style.visibility = "hidden";
         popup.style.opacity = 0;
+        document.getElementById("form1").reset();
+
     }
 
     function confirmDelete(projectId) {

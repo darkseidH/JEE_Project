@@ -106,15 +106,13 @@
                             <i class="bx bx-cog me-2"></i>
                             <div data-i18n="Analytics">Account</div>
                         </a>
-                        <ul class="menu-sub">
-                            <li class="menu-item">
-                                <a href="pages-account-settings-account.html" class="menu-link">
-                                    <div data-i18n="Account">Account</div>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
-
+                    <li class="menu-item">
+                        <a href="gestion_Personnel" class="menu-link">
+                            <i class="bx bx-cog me-2"></i>
+                            <div data-i18n="Analytics">Gestion Personnel</div>
+                        </a>
+                    </li>
                 </ul>
             </aside>
 
@@ -168,7 +166,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <span class="fw-semibold d-block"><%= session.getAttribute("name")%></span>
+                                                    <span class="fw-semibold d-block"><%= session.getAttribute("lastName") + " " + session.getAttribute("firstName") %></span>
                                                     <small class="text-muted"><%= session.getAttribute("role")%>
                                                 </div>
                                             </div>
@@ -200,6 +198,9 @@
                 </nav>
 
                 <div class="content-wrapper">
+                    <%
+                        String name = (String) request.getAttribute("error");
+                    %>
 
                     <div class="container-xxl flex-grow-1 container-p-y">
                         <div class="card">
@@ -210,17 +211,27 @@
                                 <form class="row g-3 needs-validation" onsubmit="accountSetting" method="post"
                                       name="formInfoPerso">
                                     <div class="col-md-4">
-                                        <label for="name" class="form-label">Nom</label>
-                                        <input type="text" class="form-control" id="name" name="name"
-                                               required>
+                                        <label for="firstName" class="form-label">Nom</label>
+                                        <input type="text" class="form-control" id="firstName" name="firstName"
+                                               value="<%= session.getAttribute("lastName")%>" required>
                                         <div class="valid-feedback">
                                             Looks good!
                                         </div>
                                     </div>
+
+                                    <div class="col-md-4">
+                                        <label for="lastName" class="form-label">Prenom</label>
+                                        <input type="text" class="form-control" id="lastName" name="lastName"
+                                               value="<%= session.getAttribute("firstName")%>" required>
+                                        <div class="valid-feedback">
+                                            Looks good!
+                                        </div>
+                                    </div>
+
                                     <div class="col-md-4">
                                         <label for="email" class="form-label">Email</label>
                                         <input type="text" class="form-control" id="email" name="email"
-                                               required>
+                                               value="<%= session.getAttribute("email")%>" required>
                                         <div class="valid-feedback">
                                             Looks good!
                                         </div>

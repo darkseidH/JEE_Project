@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class GestionUserData {
     Connection conn = MySqlConnection.openConnection();
 
-    public ResultSet findUserWithEmailData(User user) {
+    public ResultSet findUserWithEmailData(User user) throws SQLException {
         ResultSet res = null;
         String req = "SELECT * FROM User WHERE email = ?";
         try {
@@ -20,11 +20,12 @@ public class GestionUserData {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+
         return res;
     }
 
     public User addUserData(User user) {
-        String query = "INSERT INTO User (email, first_name, last_name, password, role) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO User (email, first_name, last_name, password, role, is_active) VALUES (?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement st = conn.prepareStatement(query);
             st.setString(1, user.getEmail());
@@ -32,6 +33,7 @@ public class GestionUserData {
             st.setString(3, user.getLast_name());
             st.setString(4, user.getPassword());
             st.setString(5, user.getRole());
+            st.setBoolean(6, user.getIs_active());
             st.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -40,7 +42,7 @@ public class GestionUserData {
     }
 
     public User updateUserData(User user) {
-        String query = "UPDATE User SET email = ?, first_name = ?, last_name = ?, password = ?, role = ? WHERE id = ?";
+        String query = "UPDATE User SET email = ?, first_name = ?, last_name = ?, password = ?, role = ? , is_active = ? WHERE id = ?";
         try {
             PreparedStatement st = conn.prepareStatement(query);
             st.setString(1, user.getEmail());
@@ -48,7 +50,8 @@ public class GestionUserData {
             st.setString(3, user.getLast_name());
             st.setString(4, user.getPassword());
             st.setString(5, user.getRole());
-            st.setLong(6, user.getId());
+            st.setBoolean(6, user.getIs_active());
+            st.setLong(7, user.getId());
             st.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -56,11 +59,11 @@ public class GestionUserData {
         return user;
     }
 
-    public boolean deleteUserData(User user) {
-        String query = "DELETE FROM User WHERE id = ?";
+    public boolean deleteUserData(Long id) {
+        String query = "UPDATE User SET is_active = 0 WHERE id = ?";
         try {
             PreparedStatement st = conn.prepareStatement(query);
-            st.setLong(1, user.getId());
+            st.setLong(1, id);
             st.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -88,6 +91,19 @@ public class GestionUserData {
         try {
             PreparedStatement st = conn.prepareStatement(req);
             st.setLong(1, id);
+            res = st.executeQuery();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return res;
+    }
+
+    public ResultSet findAllUsersExceptDirectorData() {
+        ResultSet res = null;
+        String req = "SELECT * FROM User WHERE role != ?";
+        try {
+            PreparedStatement st = conn.prepareStatement(req);
+            st.setString(1, "director");
             res = st.executeQuery();
         } catch (SQLException e) {
             System.out.println(e.getMessage());

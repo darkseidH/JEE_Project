@@ -46,14 +46,15 @@ public class LoginServlet extends HttpServlet {
                 return;
             }
 
-            boolean isTrue = Password.checkPassword(password, user.getPassword());
+            boolean isTrue = Password.checkPassword(password, user.getPassword()) && user.getIs_active();
 
             if (!isTrue) {
                 request.setAttribute("error", "Invalid password");
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
             } else {
                 session.setAttribute("id", user.getId());
-                session.setAttribute("name", user.getFirst_name() + " " + user.getLast_name());
+                session.setAttribute("lastName", user.getLast_name());
+                session.setAttribute("firstName", user.getFirst_name());
                 session.setAttribute("email", user.getEmail());
                 session.setAttribute("role", user.getRole());
                 String targetPage;
