@@ -1,6 +1,9 @@
 <%@ page import="com.presentation.model.User" %>
 <%@ page import="com.presentation.model.Projet" %>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="com.presentation.model.Technologie" %>
+<%@ page import="java.util.List" %>
 <%--
   Created by IntelliJ IDEA.
   User: darkseid
@@ -246,8 +249,7 @@
 
                 <!-- Content wrapper -->
                 <div class="content-wrapper">
-
-
+                    <div>
                     <!-- Content -->
                     <% Projet projet = (Projet) request.getAttribute("projet"); %>
                     <div class="divContentWrapper">
@@ -269,100 +271,70 @@
                     </div>
 
                     <div class="divContentWrapper">
-                        <h2>Informations sur le Projet</h2>
-                        <div id="divContainer">
-
-                            <div>
-                                <p><strong>Nom du Projet:</strong><%=projet.getNom()%></p>
-                                <p><strong>Date de Démarrage:</strong> <%=projet.getDateDemarrage()%></p>
-                            </div>
-
-                            <div>
-                                <p><strong>Client du Projet:</strong> <%=projet.getNomClient()%></p>
-                                <p><strong>Date de Livraison:</strong><%=projet.getDateLiverison()%></p>
-                            </div>
+                        <h2>Les technologies et Les développeurs</h2>
+                        <% Map<Technologie, List<User>> technologieProjetDevelopers = (Map<Technologie, List<User>>) request.getAttribute("technologieProjetDevelopers");
+                           if(technologieProjetDevelopers != null){
+                           for(Map.Entry<Technologie, List<User>> entry : technologieProjetDevelopers.entrySet()) {
+                               Technologie technologie = entry.getKey();
+                               List<User> users = entry.getValue();
+                        %>
+                          <div style="margin-left: 10px;"> <h4><%=technologie.getNom()%>  :</h4>
+                             <% for(User user : users) { %>
+                                <p style="margin-left: 10px;"><strong> <%=user.getFirst_name()%> <%=user.getLast_name()%> </strong></p>
+                                <% } %>
+                          </div>
+                        <%
+                                }
+                           }
+                        %>
+                        <div>
+                            <form style="margin: 10px;" method="post" action="add_technologie">
+                                <label > Choisir des technologies :</label>
+                                <select id="methodologySelect" name="selectedTechnologies[]" multiple>
+                                    <% List<Technologie> technologies = (List<Technologie>) request.getAttribute("technologies");
+                                    for(Technologie technologie : technologies){
+                                    %>
+                                    <option value="<%=technologie.getNom()%>"><%=technologie.getNom()%></option>
+                                    <% } %>
+                                </select>
+                                <input type="hidden" name="projet_id" value="<%=projet.getId()%>">
+                                <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;">Submit</button>
+                            </form>
                         </div>
-                        <p  style="margin-left: 8px; word-wrap: break-word;"><strong>Description du Projet:</strong> Description du projet ici </p>
-                        <p style="margin-left: 8px;"> <strong>Methodologie:</strong> <%=projet.getMethodologie()%> </p>
-                    </div>
 
-                    <div class="divContentWrapper">
-                        <h2>Informations sur le Projet</h2>
-                        <div id="divContainer">
-
-                            <div>
-                                <p><strong>Nom du Projet:</strong><%=projet.getNom()%></p>
-                                <p><strong>Date de Démarrage:</strong> <%=projet.getDateDemarrage()%></p>
-                            </div>
-
-                            <div>
-                                <p><strong>Client du Projet:</strong> <%=projet.getNomClient()%></p>
-                                <p><strong>Date de Livraison:</strong><%=projet.getDateLiverison()%></p>
-                            </div>
+                        <div>
+                            <form style="margin: 10px;" method="post" action="add_Devlopeur_Technologie">
+                                <label > Choisir des dévloppeurs :</label>
+                                <select  name="selectedDevloppeurs[]" multiple>
+                                    <% Map<Technologie, List<User>> technologieProjetNDevelopers = (Map<Technologie, List<User>>) request.getAttribute("DevelopersNProjetTechnologie");
+                                        if(technologieProjetNDevelopers != null){
+                                            for(Map.Entry<Technologie, List<User>> entry : technologieProjetNDevelopers.entrySet()) {
+                                                Technologie technologie = entry.getKey();
+                                                List<User> users = entry.getValue();
+                                    %>
+                                             <optgroup label="<%=technologie.getNom()%>">
+                                                 <% for(User user : users) { %>
+                                                 <option value="<%=technologie.getId()%>-<%=user.getId()%>"><%=user.getFirst_name()%> <%=user.getLast_name()%></option>
+                                                 <% } %>
+                                             </optgroup>
+                                    <% }} %>
+                                </select>
+                                <input type="hidden" name="projet_id" value="<%=projet.getId()%>">
+                                <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;">Submit</button>
+                            </form>
                         </div>
-                        <p  style="margin-left: 8px; word-wrap: break-word;"><strong>Description du Projet:</strong> Description du projet ici </p>
-                        <p style="margin-left: 8px;"> <strong>Methodologie:</strong> <%=projet.getMethodologie()%> </p>
-                    </div>
-
-                    <div class="divContentWrapper">
-                        <h2>Informations sur le Projet</h2>
-                        <div id="divContainer">
-
-                            <div>
-                                <p><strong>Nom du Projet:</strong><%=projet.getNom()%></p>
-                                <p><strong>Date de Démarrage:</strong> <%=projet.getDateDemarrage()%></p>
-                            </div>
-
-                            <div>
-                                <p><strong>Client du Projet:</strong> <%=projet.getNomClient()%></p>
-                                <p><strong>Date de Livraison:</strong><%=projet.getDateLiverison()%></p>
-                            </div>
-                        </div>
-                        <p  style="margin-left: 8px; word-wrap: break-word;"><strong>Description du Projet:</strong> Description du projet ici </p>
-                        <p style="margin-left: 8px;"> <strong>Methodologie:</strong> <%=projet.getMethodologie()%> </p>
-                    </div>
-
-                    <div class="divContentWrapper">
-                        <h2>Informations sur le Projet</h2>
-                        <div id="divContainer">
-
-                            <div>
-                                <p><strong>Nom du Projet:</strong><%=projet.getNom()%></p>
-                                <p><strong>Date de Démarrage:</strong> <%=projet.getDateDemarrage()%></p>
-                            </div>
-
-                            <div>
-                                <p><strong>Client du Projet:</strong> <%=projet.getNomClient()%></p>
-                                <p><strong>Date de Livraison:</strong><%=projet.getDateLiverison()%></p>
-                            </div>
-                        </div>
-                        <p  style="margin-left: 8px; word-wrap: break-word;"><strong>Description du Projet:</strong> Description du projet ici </p>
-                        <p style="margin-left: 8px;"> <strong>Methodologie:</strong> <%=projet.getMethodologie()%> </p>
-                    </div>
 
 
-                    <div class="divContentWrapper">
-                        <h2>Informations sur le Projet</h2>
-                        <div id="divContainer">
 
-                            <div>
-                                <p><strong>Nom du Projet:</strong><%=projet.getNom()%></p>
-                                <p><strong>Date de Démarrage:</strong> <%=projet.getDateDemarrage()%></p>
-                            </div>
-
-                            <div>
-                                <p><strong>Client du Projet:</strong> <%=projet.getNomClient()%></p>
-                                <p><strong>Date de Livraison:</strong><%=projet.getDateLiverison()%></p>
-                            </div>
-                        </div>
-                        <p  style="margin-left: 8px; word-wrap: break-word;"><strong>Description du Projet:</strong> Description du projet ici </p>
-                        <p style="margin-left: 8px;"> <strong>Methodologie:</strong> <%=projet.getMethodologie()%> </p>
                     </div>
 
 
 
 
 
+
+
+                </div>
 
                 </div>
                 <!-- / Content -->

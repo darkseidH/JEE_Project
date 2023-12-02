@@ -12,5 +12,5 @@ import lombok.Setter;
 public class Technologie {
 	private Long id;
 	private String nom;
-
+	private Long projetId;
 }//end Technologie

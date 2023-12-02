@@ -15,5 +15,6 @@ public interface I_Gestion_User {
     List<User> findUsersWithRole(String role) throws SQLException;
 
     User findUserWithId(Long id) throws SQLException;
+
 }
 

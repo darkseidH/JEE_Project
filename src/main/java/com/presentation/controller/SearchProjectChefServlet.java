@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
-@WebServlet(name = "searchProjectDircteurServlet", value = "/search_project_chef")
+@WebServlet(name = "searchProjectChefServlet", value = "/search_project_chef")
 public class SearchProjectChefServlet extends HttpServlet {
     GestionProjets gestionProjets = new GestionProjets();
 

@@ -1,9 +1,12 @@
 package com.buisness;
 
 import com.presentation.model.Projet;
+import com.presentation.model.Technologie;
+import com.presentation.model.User;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 public interface I_Gestion_Projet {
     Projet addProjet(Projet projet);
@@ -15,4 +18,5 @@ public interface I_Gestion_Projet {
     Projet getProjetById(long l);
 
     void addMethodologieData(String methodologie, long l);
+
 }
