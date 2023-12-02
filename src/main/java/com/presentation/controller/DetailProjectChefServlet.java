@@ -30,11 +30,12 @@ public class DetailProjectChefServlet extends HttpServlet {
         Long projectId = Long.parseLong(req.getParameter("projectId"));
         Projet projet = gestionProjets.getProjetById(projectId);
         req.setAttribute("projet", projet);
-        if(projet.getMethodologie() != null && !projet.getMethodologie().trim().isEmpty()){
             try {
                 Map<Technologie, List<User>> technologieProjetDevelopers = gestionTechnologie.getTechnologieAndDevelopersByProjectId(projectId);
                 Map<Technologie, List<User>> DevelopersNProjetTechnologie = gestionTechnologie.getTechnologieAndDevelopersNByProjectId(projectId);
                 List<Technologie> technologieList = gestionTechnologie.getTechnologiesNProjet(projectId);
+                String afficheInputDateRuenion = gestionTechnologie.afficheInputDateRuenion(projectId);
+                req.setAttribute("afficheInputDateRuenion", afficheInputDateRuenion);
                 req.setAttribute("technologies", technologieList);
                 req.setAttribute("technologieProjetDevelopers", technologieProjetDevelopers);
                 req.setAttribute("DevelopersNProjetTechnologie", DevelopersNProjetTechnologie);
@@ -42,8 +43,5 @@ public class DetailProjectChefServlet extends HttpServlet {
                 throw new RuntimeException(e);
             }
             req.getRequestDispatcher("/WEB-INF/jsp/detailProjectChefMethodologie.jsp").forward(req, resp);
-            return;
-        }
-        req.getRequestDispatcher("/WEB-INF/jsp/detailProjectChefWithoutMethodologie.jsp").forward(req, resp);
     }
 }

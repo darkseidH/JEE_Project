@@ -267,7 +267,25 @@
                             </div>
                         </div>
                         <p  style="margin-left: 8px; word-wrap: break-word;"><strong>Description du Projet:</strong> Description du projet ici </p>
+                        <% if(projet.getMethodologie() != null && !projet.getMethodologie().trim().isEmpty()){ %>
                         <p style="margin-left: 8px;"> <strong>Methodologie:</strong> <%=projet.getMethodologie()%> </p>
+                        <% }else{ %>
+                        <form style="margin: 10px;" method="post" action="technologieServlet">
+                            <input type="hidden" name="projet_id" value="<%=projet.getId()%>">
+                            <label for="methodology">Méthodologie:</label>
+                            <select id="methodology" name="methodologie">
+                                <option value="agile">Agile</option>
+                                <option value="xp">eXtreme Programming (XP)</option>
+                                <option value="scrum">Scrum</option>
+                                <option value="kanban">Kanban</option>
+                                <option value="waterfall">Waterfall (Cycle en V)</option>
+                            </select>
+                            <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;" name="submitAddMethodologie">Submit</button>
+                        </form>
+                        <% } %>
+                        <% if(projet.getDateRuenion() != null){ %>
+                        <p style="margin-left: 8px;"> <strong>Date Ruenion:</strong> <%=projet.getDateRuenion()%> </p>
+                        <% } %>
                     </div>
 
                     <div class="divContentWrapper">
@@ -288,7 +306,7 @@
                            }
                         %>
                         <div>
-                            <form style="margin: 10px;" method="post" action="add_technologie">
+                            <form style="margin: 10px;" method="post" action="technologieServlet">
                                 <label > Choisir des technologies :</label>
                                 <select id="methodologySelect" name="selectedTechnologies[]" multiple>
                                     <% List<Technologie> technologies = (List<Technologie>) request.getAttribute("technologies");
@@ -298,12 +316,12 @@
                                     <% } %>
                                 </select>
                                 <input type="hidden" name="projet_id" value="<%=projet.getId()%>">
-                                <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;">Submit</button>
+                                <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;" name="submitFAddTechnologie">Submit</button>
                             </form>
                         </div>
 
                         <div>
-                            <form style="margin: 10px;" method="post" action="add_Devlopeur_Technologie">
+                            <form style="margin: 10px;" method="post" action="technologieServlet">
                                 <label > Choisir des dévloppeurs :</label>
                                 <select  name="selectedDevloppeurs[]" multiple>
                                     <% Map<Technologie, List<User>> technologieProjetNDevelopers = (Map<Technologie, List<User>>) request.getAttribute("DevelopersNProjetTechnologie");
@@ -320,14 +338,25 @@
                                     <% }} %>
                                 </select>
                                 <input type="hidden" name="projet_id" value="<%=projet.getId()%>">
-                                <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;">Submit</button>
+                                <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;" name="submitFAddDevloperTProjet">Submit</button>
                             </form>
                         </div>
 
-
-
                     </div>
 
+                    <% if(projet.getDateRuenion() == null && !request.getAttribute("afficheInputDateRuenion").equals("0")){%>
+                        <div class="divContentWrapper">
+                            <h2>Date de Ruénion</h2>
+                            <div>
+                                <form style="margin: 10px;" method="post" action="technologieServlet">
+                                    <input type="hidden" name="projet_id" value="<%=projet.getId()%>">
+                                    <label for="meetingDate">Date de Ruénion:</label>
+                                    <input type="date" id="meetingDate" name="dateRuenion">
+                                    <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;" name="submitAddDateReunion">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    <% } %>
 
 
 

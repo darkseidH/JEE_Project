@@ -2,7 +2,6 @@ package com.buisness;
 
 import com.data.GestionProjetsData;
 import com.presentation.model.Projet;
-import com.presentation.model.Technologie;
 import com.presentation.model.User;
 
 import java.sql.ResultSet;
@@ -10,7 +9,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class GestionProjets implements I_Gestion_Projet {
     GestionProjetsData gestionProjetsData = new GestionProjetsData();
@@ -80,12 +78,14 @@ public class GestionProjets implements I_Gestion_Projet {
     }
 
     @Override
-    public void addMethodologieData(String methodologie, long l) {
-         gestionProjetsData.addMethodologieData(methodologie, l);
+    public void addMethodologie(String methodologie, Long projetId) {
+        gestionProjetsData.addMethodologieData(methodologie, projetId);
     }
 
-
-
+    @Override
+    public void addDateReunion(String dateReunion, Long projetId) {
+        gestionProjetsData.addDateReunionData(dateReunion, projetId);
+    }
 
 
     public List<Projet> findAllProjetsByStartName(String valueSearch) {

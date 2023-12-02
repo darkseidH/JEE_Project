@@ -69,8 +69,9 @@ public class GestionTechnologieData implements I_Gestion_TechnologieData {
     @Override
     public ResultSet getDevloperTechnologieNProjet(Long id) {
         ResultSet res = null;
-        String req = "SELECT DISTINCT u.* FROM User u, Competence c, Technologie T, devtechnologie d " +
+        String req = "SELECT DISTINCT u.* FROM User u, Competence c, Technologie T " +
                 "WHERE u.id = c.developer_id " +
+                "AND c.nom = T.nom " +
                 "AND c.developer_id NOT IN (SELECT developer_id FROM devtechnologie WHERE technologie_id = ?) " +
                 "AND T.id = ?;";
 
@@ -86,23 +87,32 @@ public class GestionTechnologieData implements I_Gestion_TechnologieData {
         return res;
     }
 
-//    public ResultSet getDevloperTechnologieNProjet(Long id) {
-//        ResultSet res = null;
-//        String req = "SELECT u.* FROM User u, Competence c, Technologie T, devtechnologie d " +
-//                "WHERE u.id = c.developer_id " +
-//                "AND c.nom = T.nom " +
-//                "AND d.technologie_id = T.id " +
-//                "AND c.developer_id NOT IN (SELECT developer_id FROM devtechnologie WHERE technologie_id = ?) " +
-//                "AND T.id = ?;";
-//        try {
-//            PreparedStatement st = conn.prepareStatement(req);
-//            st.setLong(1, id);
-//            st.setLong(2, id);
-//            res = st.executeQuery();
-//        } catch (SQLException e) {
-//            System.out.println(e.getMessage());
-//        }
-//        return res;
-//    }
+    @Override
+    public void addDeveloperTechnologieProjet(Long technologieId, Long developerId) {
+        String req = "insert into devtechnologie (technologie_id,developer_id) values (?,?);";
+        try {
+            PreparedStatement st = conn.prepareStatement(req);
+            st.setLong(1, technologieId);
+            st.setLong(2, developerId);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
+    @Override
+    public ResultSet afficheInputDateRuenion(Long projectId) {
+        ResultSet res = null;
+        String req = "select count(p.id) as nombreDevloperProjet from projet p,technologie t , devtechnologie d where p.id = t.projet_id and t.id = d.technologie_id and p.id = ?;";
+        try {
+            PreparedStatement st = conn.prepareStatement(req);
+            st.setLong(1, projectId);
+            res = st.executeQuery();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return res;
+
+
+    }
 }

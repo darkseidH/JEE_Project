@@ -14,4 +14,8 @@ public interface I_Gestion_TechnologieData {
     ResultSet getTechnologiesNProjet(Long projectId);
 
     ResultSet getDevloperTechnologieNProjet(Long id);
+
+    void addDeveloperTechnologieProjet(Long technologieId, Long developerId);
+
+    ResultSet afficheInputDateRuenion(Long projectId);
 }

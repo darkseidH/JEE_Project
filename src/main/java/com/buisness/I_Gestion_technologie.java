@@ -17,4 +17,8 @@ public interface I_Gestion_technologie {
     List<Technologie> getTechnologiesNProjet(Long projectId);
 
     Map<Technologie, List<User>> getTechnologieAndDevelopersNByProjectId(Long projectId) throws SQLException;
+
+    void addDeveloperTechnologieProjet(Long technologieId, Long developerId);
+
+    String afficheInputDateRuenion(Long projectId);
 }

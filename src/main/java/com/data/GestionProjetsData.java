@@ -136,6 +136,7 @@ public class GestionProjetsData {
                 projet.setId(res.getLong("id"));
                 projet.setDateDemarrage(res.getDate("dateDemarrage"));
                 projet.setDateLiverison(res.getDate("dateLiverison"));
+                projet.setDateRuenion(res.getDate("dateRuenion"));
                 projet.setDescription(res.getString("description"));
                 projet.setMethodologie(res.getString("methodologie"));
                 projet.setNom(res.getString("nom"));
@@ -161,5 +162,17 @@ public class GestionProjetsData {
             System.out.println(e.getMessage());
         }
         return null;
+    }
+
+    public void addDateReunionData(String dateReunion, Long projetId) {
+        String query = "update Projet set dateRuenion = ? where id = ?;";
+        try {
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setString(1, dateReunion);
+            st.setLong(2, projetId);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

@@ -80,6 +80,24 @@ public class GestionTechnologie implements I_Gestion_technologie {
         return technologieListMap;
     }
 
+    @Override
+    public void addDeveloperTechnologieProjet(Long technologieId, Long developerId) {
+        gestionTechnologieData.addDeveloperTechnologieProjet(technologieId,developerId);
+    }
+
+    @Override
+    public String afficheInputDateRuenion(Long projectId) {
+        ResultSet resultSet = gestionTechnologieData.afficheInputDateRuenion(projectId);
+        try {
+            if(resultSet.next()){
+                return resultSet.getString("nombreDevloperProjet");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
+    }
+
     private List<User> getDevelopersByTechnologieNProjet(Long id) throws SQLException {
         List<User> userList = new ArrayList<>();
         ResultSet resultSet = gestionTechnologieData.getDevloperTechnologieNProjet(id);

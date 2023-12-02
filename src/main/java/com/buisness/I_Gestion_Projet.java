@@ -17,6 +17,7 @@ public interface I_Gestion_Projet {
 
     Projet getProjetById(long l);
 
-    void addMethodologieData(String methodologie, long l);
+    void addMethodologie(String methodologie, Long projetId);
 
+    void addDateReunion(String dateReunion, Long projetId);
 }

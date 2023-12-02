@@ -263,11 +263,11 @@
                             </div>
                         </div>
                         <p  style="margin-left: 8px; word-wrap: break-word;"><strong>Description du Projet:</strong> Description du projet ici </p>
-                        <form style="margin: 10px;" method="post" action="add_methodologie">
+                        <form style="margin: 10px;" method="post" action="technologieServlet">
                             <input type="hidden" name="project_id" value="<%=projet.getId()%>">
                             <label for="methodology">Méthodologie:</label>
                             <input type="text" id="methodology" name="methodologie" style="width: 80%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
-                            <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;">Submit</button>
+                            <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;" name="submitFAddMethodologie">Submit</button>
                         </form>
                     </div>
                 </div>

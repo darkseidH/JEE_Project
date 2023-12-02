@@ -23,7 +23,7 @@ public class AddMethodologieServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String methodologie = req.getParameter("methodologie");
         String projectId = req.getParameter("project_id");
-        gestionProjet.addMethodologieData(methodologie, Long.parseLong(projectId));
+        gestionProjet.addMethodologie(methodologie, Long.parseLong(projectId));
         Projet projet = gestionProjet.getProjetById(Long.parseLong(projectId));
         req.setAttribute("projet", projet);
         if(projet.getMethodologie() != null && !projet.getMethodologie().trim().isEmpty()){
