@@ -42,6 +42,9 @@
 
     <meta name="description" content=""/>
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/css/multi-select-tag.css">
+
+
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="resources/assets/img/favicon/favicon.ico"/>
 
@@ -308,7 +311,7 @@
                         <div>
                             <form style="margin: 10px;" method="post" action="technologieServlet">
                                 <label > Choisir des technologies :</label>
-                                <select id="methodologySelect" name="selectedTechnologies[]" multiple>
+                                <select id="TechnologiesSelect" name="selectedTechnologies[]" multiple>
                                     <% List<Technologie> technologies = (List<Technologie>) request.getAttribute("technologies");
                                     for(Technologie technologie : technologies){
                                     %>
@@ -323,7 +326,7 @@
                         <div>
                             <form style="margin: 10px;" method="post" action="technologieServlet">
                                 <label > Choisir des dévloppeurs :</label>
-                                <select  name="selectedDevloppeurs[]" multiple>
+                                <select id="DevelopersSelect" name="selectedDevloppeurs[]" multiple>
                                     <% Map<Technologie, List<User>> technologieProjetNDevelopers = (Map<Technologie, List<User>>) request.getAttribute("DevelopersNProjetTechnologie");
                                         if(technologieProjetNDevelopers != null){
                                             for(Map.Entry<Technologie, List<User>> entry : technologieProjetNDevelopers.entrySet()) {
@@ -344,6 +347,16 @@
 
                     </div>
 
+
+                        <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/js/multi-select-tag.js"></script>
+                        <script>
+                            //new MultiSelectTag('methodology')  // id
+                            new MultiSelectTag('TechnologiesSelect')  // id
+                           // new MultiSelectTag('DevelopersSelect')  // id
+                        </script>
+
+
+
                     <% if(projet.getDateRuenion() == null && !request.getAttribute("afficheInputDateRuenion").equals("0")){%>
                         <div class="divContentWrapper">
                             <h2>Date de Ruénion</h2>
@@ -360,10 +373,7 @@
 
 
 
-
-
-
-                </div>
+                
 
                 </div>
                 <!-- / Content -->
@@ -401,7 +411,6 @@
 
 <script src="resources/assets/vendor/js/menu.js"></script>
 <!-- endbuild -->
-
 <!-- Vendors JS -->
 <script src="resources/assets/vendor/libs/apex-charts/apexcharts.js"></script>
 

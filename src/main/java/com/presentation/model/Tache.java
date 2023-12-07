@@ -14,5 +14,6 @@ public class Tache {
 	private Long id;
 	private int avancement;
 	private String description;
+	private Long service_id;
 
 }//end Tache

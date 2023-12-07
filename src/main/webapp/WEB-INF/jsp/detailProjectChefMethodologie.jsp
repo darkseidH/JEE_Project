@@ -4,6 +4,7 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="com.presentation.model.Technologie" %>
 <%@ page import="java.util.List" %>
+<%@ page import="jdk.jshell.execution.Util" %>
 <%--
   Created by IntelliJ IDEA.
   User: darkseid
@@ -41,6 +42,9 @@
     <title>DetailProject</title>
 
     <meta name="description" content=""/>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/css/multi-select-tag.css">
+
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="resources/assets/img/favicon/favicon.ico"/>
@@ -249,7 +253,7 @@
 
                 <!-- Content wrapper -->
                 <div class="content-wrapper">
-                    <div>
+                 <div>
                     <!-- Content -->
                     <% Projet projet = (Projet) request.getAttribute("projet"); %>
                     <div class="divContentWrapper">
@@ -308,7 +312,7 @@
                         <div>
                             <form style="margin: 10px;" method="post" action="technologieServlet">
                                 <label > Choisir des technologies :</label>
-                                <select id="methodologySelect" name="selectedTechnologies[]" multiple>
+                                <select id="TechnologiesSelect" name="selectedTechnologies[]" multiple>
                                     <% List<Technologie> technologies = (List<Technologie>) request.getAttribute("technologies");
                                     for(Technologie technologie : technologies){
                                     %>
@@ -323,7 +327,7 @@
                         <div>
                             <form style="margin: 10px;" method="post" action="technologieServlet">
                                 <label > Choisir des dévloppeurs :</label>
-                                <select  name="selectedDevloppeurs[]" multiple>
+                                <select id="DevelopersSelect" name="selectedDevloppeurs[]" multiple>
                                     <% Map<Technologie, List<User>> technologieProjetNDevelopers = (Map<Technologie, List<User>>) request.getAttribute("DevelopersNProjetTechnologie");
                                         if(technologieProjetNDevelopers != null){
                                             for(Map.Entry<Technologie, List<User>> entry : technologieProjetNDevelopers.entrySet()) {
@@ -344,6 +348,16 @@
 
                     </div>
 
+
+                        <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/js/multi-select-tag.js"></script>
+                        <script>
+                            //new MultiSelectTag('methodology')  // id
+                            new MultiSelectTag('TechnologiesSelect')  // id
+                           // new MultiSelectTag('DevelopersSelect')  // id
+                        </script>
+
+
+
                     <% if(projet.getDateRuenion() == null && !request.getAttribute("afficheInputDateRuenion").equals("0")){%>
                         <div class="divContentWrapper">
                             <h2>Date de Ruénion</h2>
@@ -358,27 +372,41 @@
                         </div>
                     <% } %>
 
+                     <div class="divContentWrapper">
+                         <h2>Les services</h2>
+                         <div>
+
+                         </div>
+                         <div>
+                             <h3>Ajouter service</h3>
+                             <form style="margin: 10px;" method="post" action="technologieServlet">
+                              <label>Discription</label>
+                                 <input type="text" name="discription">
+                                 <label>Duree</label>
+                                 <input type="number" name="duree">
+                                 <select id="devlopperService" name="selectedDevloper" multiple>
+                                     <% List<User> devlopers = (List<User>) request.getAttribute("DevlopersService");
+                                         for(User devloper : devlopers){
+                                     %>
+                                     <option value="<%=devloper.getId()%>"><%=devloper.getLast_name()%> <%=devloper.getFirst_name()%></option>
+                                     <% } %>
+                                 </select>
+                                 <input type="hidden" name="projet_id" value="<%=projet.getId()%>">
+                                 <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;" name="submitAddService">Submit</button>
+                             </form>
+                         </div>
+
+
+                     </div>
 
 
 
 
 
-                </div>
+
 
                 </div>
                 <!-- / Content -->
-
-
-
-
-
-
-
-
-
-
-
-                <div class="content-backdrop fade"></div>
             </div>
             <!-- Content wrapper -->
         </div>
@@ -401,7 +429,6 @@
 
 <script src="resources/assets/vendor/js/menu.js"></script>
 <!-- endbuild -->
-
 <!-- Vendors JS -->
 <script src="resources/assets/vendor/libs/apex-charts/apexcharts.js"></script>
 

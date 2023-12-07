@@ -14,6 +14,7 @@ public class Service {
 	private Long id;
 	private String description;
 	private int duree;
-	private int avancement;
+	private int developerId;
+	private int projetId;
 
 }//end Service

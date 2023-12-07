@@ -101,7 +101,6 @@ public class GestionTechnologie implements I_Gestion_technologie {
     private List<User> getDevelopersByTechnologieNProjet(Long id) throws SQLException {
         List<User> userList = new ArrayList<>();
         ResultSet resultSet = gestionTechnologieData.getDevloperTechnologieNProjet(id);
-        System.out.println("getDevelopersByTechnologieNProjet");
         if (resultSet == null) return null;
         while (resultSet.next()) {
             User user = new User();
@@ -110,7 +109,6 @@ public class GestionTechnologie implements I_Gestion_technologie {
             user.setFirst_name(resultSet.getString("first_name"));
             user.setId(resultSet.getLong("id"));
             userList.add(user);
-            System.out.println(user.getFirst_name()   + "   "+ id);
         }
         return userList;
     }
