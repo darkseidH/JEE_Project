@@ -41,6 +41,9 @@ public class LoginServlet extends HttpServlet {
                 user = gestionUser.findUserWithEmail(user);
             } catch (SQLException e) {
                 e.printStackTrace();
+            }
+
+            if (user == null) {
                 request.setAttribute("error", "User not found");
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
                 return;

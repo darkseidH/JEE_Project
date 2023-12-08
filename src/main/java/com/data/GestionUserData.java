@@ -12,7 +12,7 @@ public class GestionUserData {
 
     public ResultSet findUserWithEmailData(User user) throws SQLException {
         ResultSet res = null;
-        String req = "SELECT * FROM User WHERE email = ?";
+        String req = "SELECT * FROM User WHERE email = ? and is_active = 1;";
         try {
             PreparedStatement st = conn.prepareStatement(req);
             st.setString(1, user.getEmail());
@@ -74,7 +74,7 @@ public class GestionUserData {
 
     public ResultSet findUsersWithRoleData(String role) {
         ResultSet res = null;
-        String req = "SELECT * FROM User WHERE role = ?";
+        String req = "SELECT * FROM User WHERE role = ? and is_active = 1;";
         try {
             PreparedStatement st = conn.prepareStatement(req);
             st.setString(1, role);

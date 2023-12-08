@@ -121,6 +121,27 @@ public class GestionProjets implements I_Gestion_Projet {
         return projetsChef;
     }
 
+    public Projet findProjetByName(String name) {
+        ResultSet res = gestionProjetsData.findProjetByNameData(name);
+        Projet projet = new Projet();
+        try {
+            while (res.next()) {
+                projet.setId(res.getLong("id"));
+                projet.setNom(res.getString("nom"));
+                projet.setNomClient(res.getString("nomClient"));
+                projet.setChefProjet_id(res.getLong("chefProjet_id"));
+                projet.setNombreJourDeveloppement(res.getInt("nombreJourDeveloppement"));
+                projet.setDateDemarrage(res.getDate("dateDemarrage"));
+                projet.setDateLiverison(res.getDate("dateLiverison"));
+                projet.setDescription(res.getString("description"));
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return projet;
+    }
+
+
     public HashMap<Projet, User> mapProjectsNameToChef(String name) {
         GestionProjets gestionProjets = new GestionProjets();
         GestionUser gestionUser = new GestionUser();

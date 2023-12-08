@@ -73,8 +73,7 @@
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="resources/assets/js/config.js"></script>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.css">
     <!-- Include SweetAlert JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 </head>
@@ -179,7 +178,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <span class="fw-semibold d-block"><%= session.getAttribute("lastName") + " " + session.getAttribute("lastName") %>></span>
+                                                    <span class="fw-semibold d-block"><%= session.getAttribute("lastName") + " " + session.getAttribute("firstName") %></span>
                                                     <small class="text-muted"><%= session.getAttribute("role")%>
                                                     </small>
                                                 </div>
@@ -218,6 +217,10 @@
                     <!-- Content -->
 
                     <div class="container-xxl flex-grow-1 container-p-y">
+                        <%
+                            System.out.println(request.getAttribute("error"));
+                        %>
+                        <input name="error" type="hidden" id="error" value="<%= request.getAttribute("error") %>">
                         <div class="card">
                             <h5 class="card-header">Les Projets</h5>
                             <div class="table-responsive text-nowrap">
@@ -366,6 +369,36 @@
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
 <script type="text/javascript">
+
+    function showSweetAlert() {
+        const error = document.getElementById("error").value;
+        switch (error) {
+            case 'Projet modifié avec succès':
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Projet modifié avec succès',
+                });
+                break;
+            case 'Projet ajouté avec succès':
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Projet ajouté avec succès',
+                });
+                break;
+            case 'Ce projet existe déjà':
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Ce projet existe déjà',
+                });
+                break;
+            default:
+                break;
+        }
+    }
+
     function toggle() {
         var blur = document.getElementById("bleur");
         blur.classList.toggle("active1");

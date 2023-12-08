@@ -35,24 +35,40 @@ public class AddProjectServlet extends HttpServlet {
         LocalDate date_livraison = Date.valueOf(request.getParameter("date_livraison")).toLocalDate();
         int duree = (int) ChronoUnit.DAYS.between(date_demarrage, date_livraison);
         Long id = Long.parseLong(request.getParameter("chef_projet"));
-        Projet projet = new Projet();
-        projet.setNom(name);
-        projet.setDescription(description);
-        projet.setDateDemarrage(Date.valueOf(date_demarrage));
-        projet.setNomClient(client);
-        projet.setDateLiverison(Date.valueOf(date_livraison));
-        projet.setNombreJourDeveloppement(duree);
-        projet.setChefProjet_id(id);
-        gestionProjets.addProjet(projet);
-        HashMap<Projet, User> projets = gestionProjets.mapProjectsToChef();
-        List<User> users;
-        try {
-            users = gestionUser.findUsersWithRole("chef");
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+
+        Projet projet = gestionProjets.findProjetByName(name);
+
+        if (projet != null) {
+            HashMap<Projet, User> projets = gestionProjets.mapProjectsToChef();
+            List<User> users;
+            try {
+                users = gestionUser.findUsersWithRole("chef");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            request.setAttribute("projets", projets);
+            request.setAttribute("users", users);
+            request.setAttribute("error", "Ce projet existe déjà");
+            request.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(request, response);
+        } else {
+            projet.setNom(name);
+            projet.setDescription(description);
+            projet.setDateDemarrage(Date.valueOf(date_demarrage));
+            projet.setNomClient(client);
+            projet.setDateLiverison(Date.valueOf(date_livraison));
+            projet.setNombreJourDeveloppement(duree);
+            projet.setChefProjet_id(id);
+            gestionProjets.addProjet(projet);
+            HashMap<Projet, User> projets = gestionProjets.mapProjectsToChef();
+            List<User> users;
+            try {
+                users = gestionUser.findUsersWithRole("chef");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            request.setAttribute("projets", projets);
+            request.setAttribute("users", users);
+            request.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(request, response);
         }
-        request.setAttribute("projets", projets);
-        request.setAttribute("users", users);
-        request.getRequestDispatcher("/WEB-INF/jsp/home.jsp").forward(request, response);
     }
 }

@@ -179,7 +179,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
-                                                    <span class="fw-semibold d-block"><%= session.getAttribute("lastName") + " " + session.getAttribute("lastName") %>></span>
+                                                    <span class="fw-semibold d-block"><%= session.getAttribute("lastName") + " " + session.getAttribute("firstName") %></span>
                                                     <small class="text-muted"><%= session.getAttribute("role")%>
                                                     </small>
                                                 </div>

@@ -31,7 +31,7 @@ public class GestionProjetsData {
     }
 
     public Projet updateProjetData(Projet projet) {
-        String query = "update Projet set dateDemarrage = ?, dateLiverison = ?, description = ?, methodologie = ?, nom = ?, nomClient = ?, nombreJourDeveloppement = ? where id = ?;";
+        String query = "update Projet set dateDemarrage = ?, dateLiverison = ?, description = ?, methodologie = ?, nom = ?, nomClient = ?, nombreJourDeveloppement = ?, chefProjet_id = ? where id = ?;";
         try {
             PreparedStatement st = conn.prepareStatement(query);
             st.setDate(1, projet.getDateDemarrage());
@@ -41,7 +41,8 @@ public class GestionProjetsData {
             st.setString(5, projet.getNom());
             st.setString(6, projet.getNomClient());
             st.setInt(7, projet.getNombreJourDeveloppement());
-            st.setLong(8, projet.getId());
+            st.setLong(8, projet.getChefProjet_id());
+            st.setLong(9, projet.getId());
             st.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -101,6 +102,19 @@ public class GestionProjetsData {
             System.out.println(e.getMessage());
         }
 
+        return res;
+    }
+
+    public ResultSet findProjetByNameData(String name) {
+        ResultSet res = null;
+        String req = "select * from Projet where nom = ?;";
+        try {
+            PreparedStatement st = conn.prepareStatement(req);
+            st.setString(1, name);
+            res = st.executeQuery();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
         return res;
     }
 }

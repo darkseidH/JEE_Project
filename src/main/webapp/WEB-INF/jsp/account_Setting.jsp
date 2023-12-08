@@ -208,11 +208,11 @@
                             <div class="card-body">
                                 <input name="error" type="hidden" id="error"
                                        value="<%= request.getAttribute("error") %>">
-                                <form class="row g-3 needs-validation" onsubmit="accountSetting" method="post"
-                                      name="formInfoPerso">
+                                <form class="row g-3 needs-validation" onsubmit="return accountSetting(0)" method="post"
+                                      id="formInfoPerso">
                                     <div class="col-md-4">
                                         <label for="firstName" class="form-label">Nom</label>
-                                        <input type="text" class="form-control" id="firstName" name="firstName"
+                                        <input type="text" class="form-control" id="firstName" name="lastName"
                                                value="<%= session.getAttribute("lastName")%>" required>
                                         <div class="valid-feedback">
                                             Looks good!
@@ -221,7 +221,7 @@
 
                                     <div class="col-md-4">
                                         <label for="lastName" class="form-label">Prenom</label>
-                                        <input type="text" class="form-control" id="lastName" name="lastName"
+                                        <input type="text" class="form-control" id="lastName" name="firstName"
                                                value="<%= session.getAttribute("firstName")%>" required>
                                         <div class="valid-feedback">
                                             Looks good!
@@ -236,12 +236,12 @@
                                             Looks good!
                                         </div>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-12 d-flex justify-content-end">
                                         <button class="btn btn-primary" type="submit">Changer</button>
                                     </div>
                                 </form>
-                                <form class="row g-3 needs-validation" onsubmit="accountSetting" method="post"
-                                      name="formPassword">
+
+                                <form class="row g-3 needs-validation" onsubmit="return accountSetting(1)" method="post" id="formPassword">
                                     <div class="col-md-4">
                                         <label for="oldPassword" class="form-label">Ancien mot de passe</label>
                                         <input type="password" class="form-control" id="oldPassword" name="oldPassword"
@@ -269,7 +269,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-12 d-flex justify-content-end">
                                         <button class="btn btn-primary" type="submit">Changer</button>
                                     </div>
                                 </form>
@@ -286,40 +286,40 @@
 
     </div>
 
-    <div id="popup" class="container">
-        <form class="project-form" action="add_project" method="post">
-            <div id="div_Form">
-                <div>
-                    <label for="nom_projet">Nom du Projet :</label>
-                    <input type="text" id="nom_projet" name="nom_projet" class="form-control" required>
+<%--    <div id="popup" class="container">--%>
+<%--        <form class="project-form" action="add_project" method="post">--%>
+<%--            <div id="div_Form">--%>
+<%--                <div>--%>
+<%--                    <label for="nom_projet">Nom du Projet :</label>--%>
+<%--                    <input type="text" id="nom_projet" name="nom_projet" class="form-control" required>--%>
 
-                    <label for="description_projet">Description du Projet :</label>
-                    <textarea id="description_projet" name="description_projet" class="form-control"
-                              required></textarea>
+<%--                    <label for="description_projet">Description du Projet :</label>--%>
+<%--                    <textarea id="description_projet" name="description_projet" class="form-control"--%>
+<%--                              required></textarea>--%>
 
-                    <label for="client_projet">Client du Projet :</label>
-                    <input type="text" id="client_projet" name="client_projet" class="form-control" required>
+<%--                    <label for="client_projet">Client du Projet :</label>--%>
+<%--                    <input type="text" id="client_projet" name="client_projet" class="form-control" required>--%>
 
-                    <label for="date_demarrage">Date de Démarrage :</label>
-                    <input type="date" id="date_demarrage" name="date_demarrage" class="form-control" required>
-                </div>
-                <div>
-                    <label for="date_livraison">Date de Livraison :</label>
-                    <input type="date" id="date_livraison" name="date_livraison" class="form-control" required>
-                    <label for="chef_projet">Chef de Projet :</label>
-                    <select id="chef_projet" name="chef_projet" class="form-control" required>
+<%--                    <label for="date_demarrage">Date de Démarrage :</label>--%>
+<%--                    <input type="date" id="date_demarrage" name="date_demarrage" class="form-control" required>--%>
+<%--                </div>--%>
+<%--                <div>--%>
+<%--                    <label for="date_livraison">Date de Livraison :</label>--%>
+<%--                    <input type="date" id="date_livraison" name="date_livraison" class="form-control" required>--%>
+<%--                    <label for="chef_projet">Chef de Projet :</label>--%>
+<%--                    <select id="chef_projet" name="chef_projet" class="form-control" required>--%>
 
-                    </select>
+<%--                    </select>--%>
 
-                </div>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-top: 23px;">
-                <button type="text" class="btn-fermer" onclick="closePopup()">Fermer</button>
-                <button type="submit" class="btn-submit">Créer Projet</button>
-            </div>
+<%--                </div>--%>
+<%--            </div>--%>
+<%--            <div style="display: flex; justify-content: space-between; margin-top: 23px;">--%>
+<%--                <button type="text" class="btn-fermer" onclick="closePopup()">Fermer</button>--%>
+<%--                <button type="submit" class="btn-submit">Créer Projet</button>--%>
+<%--            </div>--%>
 
-        </form>
-    </div>
+<%--        </form>--%>
+<%--    </div>--%>
 
     <script src="resources/assets/vendor/libs/jquery/jquery.js"></script>
     <script src="resources/assets/vendor/libs/popper/popper.js"></script>
@@ -358,11 +358,18 @@
                         text: 'Passwords do not match.',
                     });
                     break;
-                case 'success':
+                case 'Psc':
                     Swal.fire({
                         icon: 'success',
                         title: 'Success',
                         text: 'Password updated successfully!',
+                    });
+                    break;
+                case 'Yihbu':
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Personal information updated successfully!',
                     });
                     break;
                 default:
@@ -372,6 +379,19 @@
 
         console.log('<%= request.getAttribute("error") %>')
         showSweetAlert('<%= request.getAttribute("error") %>');
+    </script>
+
+    <script type="text/javascript">
+        function accountSetting(param) {
+            if (param === 0) {
+                var form = document.getElementById("formInfoPerso");
+                form.action = "accountSetting?param=0";
+            } else {
+                var form = document.getElementById("formPassword");
+                form.action = "accountSetting?param=1";
+            }
+        }
+
     </script>
 
 </body>
