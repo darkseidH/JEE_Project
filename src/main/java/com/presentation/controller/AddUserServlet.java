@@ -34,6 +34,11 @@ public class AddUserServlet extends HttpServlet {
         return request;
     }
 
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        String targetPage = "/WEB-INF/jsp/gestion_Personnel.jsp";
+        request = setRequestsAttributes(request);
+        request.getRequestDispatcher(targetPage).forward(request, response);
+    }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String targetPage;
@@ -43,14 +48,14 @@ public class AddUserServlet extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         String role = request.getParameter("role");
-        String status = request.getParameter("status");
+        Boolean status = Integer.parseInt(request.getParameter("status")) == 1;
 
         user.setLast_name(lastName);
         user.setFirst_name(firstName);
         user.setEmail(email);
         user.setRole(role);
         user.setPassword(Password.hashPassword(password));
-        user.setIs_active(Boolean.valueOf(status));
+        user.setIs_active(status);
 
         if (firstName == null || lastName == null || email == null || password == null || role == null || status == null) {
             targetPage = "/WEB-INF/jsp/gestion_Personnel.jsp";
@@ -74,11 +79,9 @@ public class AddUserServlet extends HttpServlet {
         }
 
         gestionUser.addUser(user);
-
-
         targetPage = "/WEB-INF/jsp/gestion_Personnel.jsp";
         request = setRequestsAttributes(request);
-        request.getRequestDispatcher(targetPage).forward(request, response);
+        response.sendRedirect(request.getContextPath() + "/gestion_Personnel");
     }
     // TODO: 10/05/2021 add a doGet method to redirect to the same page
     // TODO: verify where insering a user with invalid

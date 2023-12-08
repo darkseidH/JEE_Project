@@ -23,7 +23,7 @@ public class DeleteUserServlet extends HttpServlet {
     }
 
     public HttpServletRequest setRequestsAttributes(HttpServletRequest request) {
-        List<User> users = new ArrayList<>();
+        List<User> users = new ArrayList<User>();
         try {
             users = gestionUser.findAllUsersExceptDirector();
         } catch (SQLException e) {
@@ -38,11 +38,12 @@ public class DeleteUserServlet extends HttpServlet {
         if (gestionUser.deleteUser(usertId)) {
             request.setAttribute("error", "User Supprimé avec succès");
             request = setRequestsAttributes(request);
-            request.getRequestDispatcher("/WEB-INF/jsp/gestion_Personnel.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/gestion_Personnel");
+//            request.getRequestDispatcher("/WEB-INF/jsp/gestion_Personnel.jsp").forward(request, response);
         } else {
             request.setAttribute("error", "Erreur lors de la suppression de l'utilisateur");
             request = setRequestsAttributes(request);
-            request.getRequestDispatcher("/WEB-INF/jsp/gestion_Personnel.jsp").forward(request, response);
+            response.sendRedirect(request.getContextPath() + "/gestion_Personnel");
         }
     }
 }

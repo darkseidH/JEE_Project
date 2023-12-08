@@ -36,7 +36,12 @@ public class AddProjectServlet extends HttpServlet {
         int duree = (int) ChronoUnit.DAYS.between(date_demarrage, date_livraison);
         Long id = Long.parseLong(request.getParameter("chef_projet"));
 
-        Projet projet = gestionProjets.findProjetByName(name);
+        Projet projet = null;
+        try {
+            projet = gestionProjets.findProjetByName(name);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
         if (projet != null) {
             HashMap<Projet, User> projets = gestionProjets.mapProjectsToChef();

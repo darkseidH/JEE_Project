@@ -285,4 +285,22 @@ public class GestionProjets implements I_Gestion_Projet {
         );
         return projetsChef;
     }
+
+    public Projet findProjetByName(String name) throws SQLException {
+        Projet projet = new Projet();
+        ResultSet res = gestionProjetsData.findProjetByNameData(name);
+        while (res.next()){
+            projet.setId(res.getLong("id"));
+            projet.setNom(res.getString("nom"));
+            projet.setNomClient(res.getString("nomClient"));
+            projet.setChefProjet_id(res.getLong("chefProjet_id"));
+            projet.setNombreJourDeveloppement(res.getInt("nombreJourDeveloppement"));
+            projet.setDateDemarrage(res.getDate("dateDemarrage"));
+            projet.setDateLiverison(res.getDate("dateLiverison"));
+            projet.setDescription(res.getString("description"));
+        }
+        if (projet.getId() == 0)
+            return null;
+        return projet;
+    }
 }
