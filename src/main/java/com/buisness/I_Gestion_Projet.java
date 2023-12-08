@@ -20,4 +20,6 @@ public interface I_Gestion_Projet {
     void addMethodologie(String methodologie, Long projetId);
 
     void addDateReunion(String dateReunion, Long projetId);
+
+    List<User> getDevlopersProjet(Long projetId) throws SQLException;
 }

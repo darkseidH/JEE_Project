@@ -1,10 +1,7 @@
 package com.presentation.controller;
 
 import com.buisness.*;
-import com.presentation.model.Projet;
-import com.presentation.model.Service;
-import com.presentation.model.Technologie;
-import com.presentation.model.User;
+import com.presentation.model.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -13,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,9 +30,9 @@ public class ServiceServlet extends HttpServlet {
 
         if(req.getParameter("submitAddService")!= null) {
             Service service = new Service();
-            service.setDeveloperId(Integer.parseInt(req.getParameter("developer_Id")));
-            service.setId(Long.valueOf(req.getParameter("service_id")));
-            service.setProjetId(Integer.parseInt(req.getParameter("projet_Id")));
+            Long id = Long.parseLong(req.getParameter("selectedDeveloper"));
+            service.setDeveloperId(Math.toIntExact(id));
+            service.setProjetId(Integer.parseInt(String.valueOf(projet_id)));
             service.setDuree(Integer.parseInt(req.getParameter("duree")));
             service.setDescription(req.getParameter("description"));
             gestionService.addService(service);
@@ -48,10 +46,14 @@ public class ServiceServlet extends HttpServlet {
             List<Technologie> technologieList = gestion_technologie.getTechnologiesNProjet(projet_id);
             Map<Technologie, List<User>> DevelopersNProjetTechnologie = gestion_technologie.getTechnologieAndDevelopersNByProjectId(projet_id);
             String afficheInputDateRuenion = gestion_technologie.afficheInputDateRuenion(projet_id);
+            List<User> DevelopersProjet = gestionProjets.getDevlopersProjet(projet_id);
+            HashMap<Service, List<Tache>> serviceListHashMap = gestionService.getAllServiceTache(projet_id);
             req.setAttribute("afficheInputDateRuenion", afficheInputDateRuenion);
             req.setAttribute("technologies", technologieList);
             req.setAttribute("technologieProjetDevelopers", technologieProjetDevelopers);
             req.setAttribute("DevelopersNProjetTechnologie", DevelopersNProjetTechnologie);
+            req.setAttribute("DevelopersProjet",DevelopersProjet);
+            req.setAttribute("ServicesTaches",serviceListHashMap);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

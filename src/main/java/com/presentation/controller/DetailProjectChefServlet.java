@@ -1,11 +1,7 @@
 package com.presentation.controller;
 
-import com.buisness.GestionProjets;
-import com.buisness.GestionTechnologie;
-import com.buisness.I_Gestion_technologie;
-import com.presentation.model.Projet;
-import com.presentation.model.Technologie;
-import com.presentation.model.User;
+import com.buisness.*;
+import com.presentation.model.*;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +18,7 @@ import java.util.Map;
 public class DetailProjectChefServlet extends HttpServlet {
     GestionProjets gestionProjets = new GestionProjets();
     I_Gestion_technologie gestionTechnologie = new GestionTechnologie();
+    I_GestionService gestionService = new GestionService();
     public void init() throws ServletException {
         super.init();
     }
@@ -35,10 +33,14 @@ public class DetailProjectChefServlet extends HttpServlet {
                 Map<Technologie, List<User>> DevelopersNProjetTechnologie = gestionTechnologie.getTechnologieAndDevelopersNByProjectId(projectId);
                 List<Technologie> technologieList = gestionTechnologie.getTechnologiesNProjet(projectId);
                 String afficheInputDateRuenion = gestionTechnologie.afficheInputDateRuenion(projectId);
+                List<User> DevelopersProjet = gestionProjets.getDevlopersProjet(projectId);
+                HashMap<Service, List<Tache>> serviceListHashMap = gestionService.getAllServiceTache(projectId);
                 req.setAttribute("afficheInputDateRuenion", afficheInputDateRuenion);
                 req.setAttribute("technologies", technologieList);
                 req.setAttribute("technologieProjetDevelopers", technologieProjetDevelopers);
                 req.setAttribute("DevelopersNProjetTechnologie", DevelopersNProjetTechnologie);
+                req.setAttribute("DevelopersProjet",DevelopersProjet);
+                req.setAttribute("ServicesTaches",serviceListHashMap);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

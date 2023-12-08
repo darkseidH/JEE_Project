@@ -25,7 +25,9 @@ public class GetionTache implements I_GestionTache{
               Tache tache = new Tache();
               tache.setId(resultSet.getLong("id"));
               tache.setService_id(resultSet.getLong("service_id"));
+              tache.setAvancement(resultSet.getInt("avancement"));
               tache.setDescription(resultSet.getString("description"));
+              taches.add(tache);
         }
         return taches;
     }

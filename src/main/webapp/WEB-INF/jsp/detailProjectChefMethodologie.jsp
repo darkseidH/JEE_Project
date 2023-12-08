@@ -1,10 +1,8 @@
-<%@ page import="com.presentation.model.User" %>
-<%@ page import="com.presentation.model.Projet" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.Map" %>
-<%@ page import="com.presentation.model.Technologie" %>
 <%@ page import="java.util.List" %>
 <%@ page import="jdk.jshell.execution.Util" %>
+<%@ page import="com.presentation.model.*" %>
 <%--
   Created by IntelliJ IDEA.
   User: darkseid
@@ -375,20 +373,42 @@
                      <div class="divContentWrapper">
                          <h2>Les services</h2>
                          <div>
+                             <table>
+                             <%HashMap<Service,List<Tache>> serviceListHashMap = (HashMap<Service, List<Tache>>) request.getAttribute("ServicesTaches");
+                                 int i = 0;
+                                     if(serviceListHashMap != null){for(Map.Entry<Service, List<Tache>> entry : serviceListHashMap.entrySet()) {
+                                         Service service = entry.getKey();
+                                         List<Tache> taches = entry.getValue();
 
+                             %>
+                                 <tr>
+                                     <td style="padding-left : 10px">service  <%=i%> :  </td>
+                                     <td style="padding-left : 10px"><%=service.getDescription()%></td>
+                                     <td style="padding-left : 10px">duree : <%=service.getDuree()%></td>
+                                 </tr>
+                                    <% i++; int j =0;%>
+                                    <% for(Tache tache : taches){ j++;%>
+                                    <tr>
+                                        <td style="padding-left : 60px; padding-right: 50px;">tache <%=j%> :  </td>
+                                        <td style="padding-left : 60px"><%=tache.getDescription()%></td>
+                                        <td style="padding-left : 60px">Avancement : <%=tache.getAvancement()%></td>
+                                    </tr>
+                                    <%}}}%>
+                             </table>
                          </div>
                          <div>
                              <h3>Ajouter service</h3>
-                             <form style="margin: 10px;" method="post" action="technologieServlet">
-                              <label>Discription</label>
-                                 <input type="text" name="discription">
+                             <form style="margin: 10px; display: flex;flex-direction: row;align-items: center; margin: 10px;justify-content: space-between" method="post" action="ServiceServlet">
+                                 <label>Discription</label>
+                                 <input type="text" name="description">
                                  <label>Duree</label>
                                  <input type="number" name="duree">
-                                 <select id="devlopperService" name="selectedDevloper" multiple>
-                                     <% List<User> devlopers = (List<User>) request.getAttribute("DevlopersService");
-                                         for(User devloper : devlopers){
+                                 <label>Developpeur :</label>
+                                 <select id="selectedDevloper" name="selectedDeveloper">
+                                     <% List<User> developers = (List<User>) request.getAttribute("DevelopersProjet");
+                                         for(User developer : developers){
                                      %>
-                                     <option value="<%=devloper.getId()%>"><%=devloper.getLast_name()%> <%=devloper.getFirst_name()%></option>
+                                     <option value="<%=developer.getId()%>"><%=developer.getLast_name()%>  <%=developer.getFirst_name()%></option>
                                      <% } %>
                                  </select>
                                  <input type="hidden" name="projet_id" value="<%=projet.getId()%>">

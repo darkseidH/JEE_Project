@@ -87,6 +87,24 @@ public class GestionProjets implements I_Gestion_Projet {
         gestionProjetsData.addDateReunionData(dateReunion, projetId);
     }
 
+    @Override
+    public List<User> getDevlopersProjet(Long projetId) throws SQLException {
+        List<User> devlopersProjet = new ArrayList<>();
+        ResultSet resultSet = gestionProjetsData.getDevlopersProjet(projetId);
+        if (resultSet == null) return null;
+        while(resultSet.next()){
+            User user = new User();
+            user.setId(resultSet.getLong("id"));
+            user.setFirst_name(resultSet.getString("first_name"));
+            user.setLast_name(resultSet.getString("last_name"));
+            user.setEmail(resultSet.getString("email"));
+            user.setPassword(resultSet.getString("password"));
+            user.setRole(resultSet.getString("role"));
+            devlopersProjet.add(user);
+        }
+        return devlopersProjet;
+    }
+
 
     public List<Projet> findAllProjetsByStartName(String valueSearch) {
         ResultSet res = gestionProjetsData.findAllProjetsByStartNameData(valueSearch);

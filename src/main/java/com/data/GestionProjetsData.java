@@ -1,11 +1,13 @@
 package com.data;
 
 import com.presentation.model.Projet;
+import com.presentation.model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class GestionProjetsData {
     Connection conn = MySqlConnection.openConnection();
@@ -174,5 +176,19 @@ public class GestionProjetsData {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public ResultSet getDevlopersProjet(Long projetId) {
+        ResultSet res = null;
+        String req = "select distinct u.* from user u, technologie t, devtechnologie d where u.id = d.developer_id and d.technologie_id = t.id  and t.projet_id = ?;";
+        try {
+            PreparedStatement st = conn.prepareStatement(req);
+            st.setLong(1, projetId);
+            res = st.executeQuery();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return res;
     }
 }
