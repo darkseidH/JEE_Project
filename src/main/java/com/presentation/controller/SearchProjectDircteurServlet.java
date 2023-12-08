@@ -24,7 +24,7 @@ public class SearchProjectDircteurServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String valueSearch = request.getParameter("valueSearch");
-        HashMap<Projet, User> matchingProjects = gestionProjets.mapProjectsNameToChef(valueSearch);
+        HashMap<Projet, User> matchingProjects = gestionProjets.mapProjectsNameToDirector(valueSearch);
         StringBuilder htmlResponse = new StringBuilder();
 
         if (matchingProjects != null) {

@@ -72,6 +72,39 @@ public class GestionProjets implements I_Gestion_Projet {
         return projets;
     }
 
+    @Override
+    public Projet getProjetById(long l) {
+        return gestionProjetsData.getProjetByIdData(l);
+    }
+
+    @Override
+    public void addMethodologie(String methodologie, Long projetId) {
+        gestionProjetsData.addMethodologieData(methodologie, projetId);
+    }
+
+    @Override
+    public void addDateReunion(String dateReunion, Long projetId) {
+        gestionProjetsData.addDateReunionData(dateReunion, projetId);
+    }
+
+    @Override
+    public List<User> getDevlopersProjet(Long projetId) throws SQLException {
+        List<User> devlopersProjet = new ArrayList<>();
+        ResultSet resultSet = gestionProjetsData.getDevlopersProjet(projetId);
+        if (resultSet == null) return null;
+        while(resultSet.next()){
+            User user = new User();
+            user.setId(resultSet.getLong("id"));
+            user.setFirst_name(resultSet.getString("first_name"));
+            user.setLast_name(resultSet.getString("last_name"));
+            user.setEmail(resultSet.getString("email"));
+            user.setPassword(resultSet.getString("password"));
+            user.setRole(resultSet.getString("role"));
+            devlopersProjet.add(user);
+        }
+        return devlopersProjet;
+    }
+
 
     public List<Projet> findAllProjetsByStartName(String valueSearch) {
         ResultSet res = gestionProjetsData.findAllProjetsByStartNameData(valueSearch);
@@ -117,32 +150,10 @@ public class GestionProjets implements I_Gestion_Projet {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        projetsChef.forEach((projet, user) -> System.out.println(projet + " " + user));
         return projetsChef;
     }
 
-    public Projet findProjetByName(String name) {
-        ResultSet res = gestionProjetsData.findProjetByNameData(name);
-        Projet projet = new Projet();
-        try {
-            while (res.next()) {
-                projet.setId(res.getLong("id"));
-                projet.setNom(res.getString("nom"));
-                projet.setNomClient(res.getString("nomClient"));
-                projet.setChefProjet_id(res.getLong("chefProjet_id"));
-                projet.setNombreJourDeveloppement(res.getInt("nombreJourDeveloppement"));
-                projet.setDateDemarrage(res.getDate("dateDemarrage"));
-                projet.setDateLiverison(res.getDate("dateLiverison"));
-                projet.setDescription(res.getString("description"));
-            }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return projet;
-    }
-
-
-    public HashMap<Projet, User> mapProjectsNameToChef(String name) {
+    public HashMap<Projet, User> mapProjectsNameToDirector(String name) {
         GestionProjets gestionProjets = new GestionProjets();
         GestionUser gestionUser = new GestionUser();
         List<Projet> projets;
@@ -161,10 +172,97 @@ public class GestionProjets implements I_Gestion_Projet {
                 },
                 HashMap::putAll
         );
-        projetsChef.forEach((projet, user) -> System.out.println(projet + " " + user));
+
         return projetsChef;
     }
 
+    public HashMap<Projet, User> mapProjectsNameToChef(String name,String email) {
+        GestionProjets gestionProjets = new GestionProjets();
+        GestionUser gestionUser = new GestionUser();
+        List<Projet> projets;
+        HashMap<Projet, User> projetsChef;
+        projets = gestionProjets.findAllProjetsByStartNameTochef(name,email);
+        projetsChef = projets.stream().collect(
+                HashMap::new,
+                (map, projet) -> {
+                    try {
+                        User user;
+                        user = gestionUser.findUserWithId(projet.getChefProjet_id());
+                        map.put(projet, user);
+                    } catch (SQLException e) {
+                        throw new RuntimeException("Error while processing project: " + projet.getId(), e);
+                    }
+                },
+                HashMap::putAll
+        );
+        return projetsChef;
+    }
+
+    private List<Projet> findAllProjetsByStartNameTochef(String name, String email) {
+        ResultSet res = gestionProjetsData.findAllProjetsByStartNameTochefData(name,email);
+        ArrayList<Projet> projets = new ArrayList<>();
+        try {
+            while (res.next()) {
+                Projet projet = new Projet();
+                projet.setId(res.getLong("id"));
+                projet.setNom(res.getString("nom"));
+                projet.setNomClient(res.getString("nomClient"));
+                projet.setChefProjet_id(res.getLong("chefProjet_id"));
+                projet.setNombreJourDeveloppement(res.getInt("nombreJourDeveloppement"));
+                projet.setDateDemarrage(res.getDate("dateDemarrage"));
+                projet.setDateLiverison(res.getDate("dateLiverison"));
+                projet.setDescription(res.getString("description"));
+                projets.add(projet);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return projets;
+    }
+
+    public HashMap<Projet, User> mapProjectsNameToDevloper(String name, String email) {
+        GestionProjets gestionProjets = new GestionProjets();
+        GestionUser gestionUser = new GestionUser();
+        List<Projet> projets;
+        HashMap<Projet, User> projetsChef;
+        projets = gestionProjets.findAllProjetsByStartNameToDevloper(name,email);
+        projetsChef = projets.stream().collect(
+                HashMap::new,
+                (map, projet) -> {
+                    try {
+                        User user;
+                        user = gestionUser.findUserWithId(projet.getChefProjet_id());
+                        map.put(projet, user);
+                    } catch (SQLException e) {
+                        throw new RuntimeException("Error while processing project: " + projet.getId(), e);
+                    }
+                },
+                HashMap::putAll
+        );
+        return projetsChef;
+    }
+
+    private List<Projet> findAllProjetsByStartNameToDevloper(String name, String email) {
+        ResultSet res = gestionProjetsData.findAllProjetsByStartNameToDevloperData(name,email);
+        ArrayList<Projet> projets = new ArrayList<>();
+        try {
+            while (res.next()) {
+                Projet projet = new Projet();
+                projet.setId(res.getLong("id"));
+                projet.setNom(res.getString("nom"));
+                projet.setNomClient(res.getString("nomClient"));
+                projet.setChefProjet_id(res.getLong("chefProjet_id"));
+                projet.setNombreJourDeveloppement(res.getInt("nombreJourDeveloppement"));
+                projet.setDateDemarrage(res.getDate("dateDemarrage"));
+                projet.setDateLiverison(res.getDate("dateLiverison"));
+                projet.setDescription(res.getString("description"));
+                projets.add(projet);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return projets;
+    }
 
     public HashMap<Projet, User> mapChefProjets(String email) {
         GestionProjets gestionProjets = new GestionProjets();
@@ -185,7 +283,6 @@ public class GestionProjets implements I_Gestion_Projet {
                 },
                 HashMap::putAll
         );
-        projetsChef.forEach((projet, user) -> System.out.println(projet + " " + user));
         return projetsChef;
     }
 }

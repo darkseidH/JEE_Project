@@ -19,5 +19,6 @@ public interface I_Gestion_User {
     User findUserWithId(Long id) throws SQLException;
 
     List<User> findAllUsersExceptDirector() throws SQLException;
+
 }
 
