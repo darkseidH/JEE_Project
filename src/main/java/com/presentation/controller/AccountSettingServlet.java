@@ -84,6 +84,5 @@ public class AccountSettingServlet extends HttpServlet {
                 }
             }
         }
-        // TODO : add a way to change email and name
     }
 }
