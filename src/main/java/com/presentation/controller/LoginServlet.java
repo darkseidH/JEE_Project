@@ -76,17 +76,12 @@ public class LoginServlet extends HttpServlet {
                         break;
                     case "chef":
                         HashMap<Projet, User> projets1 = gestionProjet.mapChefProjets(email);
-                        List<User> users1;
-                        try {
-                            users1 = gestionUser.findUsersWithRole("chef");
-                        } catch (SQLException e) {
-                            throw new RuntimeException(e);
-                        }
                         request.setAttribute("projets", projets1);
-                        request.setAttribute("users", users1);
                         targetPage = "/WEB-INF/jsp/home_chef.jsp";
                         break;
                     case "developer":
+                        HashMap<Projet, User> projets2 = gestionProjet.mapDevProjets(email);
+                        request.setAttribute("projets", projets2);
                         targetPage = "/WEB-INF/jsp/home_dev.jsp";
                         break;
                     default:

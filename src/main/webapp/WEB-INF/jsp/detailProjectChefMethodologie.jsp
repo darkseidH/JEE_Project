@@ -114,6 +114,40 @@
                 flex-basis: 100%; /* Chaque sous-conteneur occupe 100% de la largeur lorsque la largeur de l'écran est inférieure à 600px */
             }
         }
+
+
+             /* Table styles */
+         table {
+             border-collapse: collapse;
+             width: 100%;
+             margin-bottom: 20px; /* Add some spacing at the bottom of the table */
+         }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 12px;
+        }
+
+        td {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        /* Service row styles */
+        .service-row td {
+            font-weight: bold;
+        }
+
+        /* Task row styles */
+        .task-row td {
+            background-color: #f9f9f9;
+        }
+
+        /* Add more styles as needed */
+
+
+
     </style>
 
 

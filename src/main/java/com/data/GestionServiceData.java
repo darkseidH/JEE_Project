@@ -37,4 +37,19 @@ public class GestionServiceData implements I_GestionServiceData{
         }
         return res;
     }
+
+    @Override
+    public ResultSet getAllServiceByIdProjectDeveloper(Long projetId, String email) {
+        ResultSet res = null;
+        String req = "select distinct s.* from projet p , service s , user u where p.id = s.projet_id and s.developer_id = u.id  and u.email = ? and p.id = ?;";
+        try {
+            PreparedStatement st = conn.prepareStatement(req);
+            st.setString(1,email);
+            st.setLong(2, projetId);
+            res = st.executeQuery();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return res;
+    }
 }

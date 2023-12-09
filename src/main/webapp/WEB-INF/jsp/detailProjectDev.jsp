@@ -1,6 +1,8 @@
-<%@ page import="com.presentation.model.User" %>
-<%@ page import="com.presentation.model.Projet" %>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="java.util.List" %>
+<%@ page import="jdk.jshell.execution.Util" %>
+<%@ page import="com.presentation.model.*" %>
 <%--
   Created by IntelliJ IDEA.
   User: darkseid
@@ -38,6 +40,9 @@
     <title>DetailProject</title>
 
     <meta name="description" content=""/>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/css/multi-select-tag.css">
+
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="resources/assets/img/favicon/favicon.ico"/>
@@ -81,8 +86,8 @@
 
     <style>
 
-        .container {
-            max-width: 1285px;
+        .divContentWrapper {
+            width: 1272px;
             margin: 20px auto;
             background-color: #fff;
             padding: 20px;
@@ -109,6 +114,40 @@
                 flex-basis: 100%; /* Chaque sous-conteneur occupe 100% de la largeur lorsque la largeur de l'écran est inférieure à 600px */
             }
         }
+
+
+        /* Table styles */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px; /* Add some spacing at the bottom of the table */
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 12px;
+        }
+
+        td {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        /* Service row styles */
+        .service-row td {
+            font-weight: bold;
+        }
+
+        /* Task row styles */
+        .task-row td {
+            background-color: #f9f9f9;
+        }
+
+        /* Add more styles as needed */
+
+
+
     </style>
 
 
@@ -246,45 +285,105 @@
 
                 <!-- Content wrapper -->
                 <div class="content-wrapper">
-                    <!-- Content -->
-                    <% Projet projet = (Projet) request.getAttribute("projet"); %>
-                    <div class="container">
-                        <h2>Informations sur le Projet</h2>
-                        <div id="divContainer">
+                    <div>
+                        <!-- Content -->
+                        <% Projet projet = (Projet) request.getAttribute("projet"); %>
+                        <div class="divContentWrapper">
+                            <h2>Informations sur le Projet</h2>
+                            <div id="divContainer">
 
-                            <div>
-                                <p><strong>Nom du Projet:</strong><%=projet.getNom()%></p>
-                                <p><strong>Date de Démarrage:</strong> <%=projet.getDateDemarrage()%></p>
-                            </div>
+                                <div>
+                                    <p><strong>Nom du Projet:</strong><%=projet.getNom()%></p>
+                                    <p><strong>Date de Démarrage:</strong> <%=projet.getDateDemarrage()%></p>
+                                </div>
 
-                            <div>
-                                <p><strong>Client du Projet:</strong> <%=projet.getNomClient()%></p>
-                                <p><strong>Date de Livraison:</strong><%=projet.getDateLiverison()%></p>
+                                <div>
+                                    <p><strong>Client du Projet:</strong> <%=projet.getNomClient()%></p>
+                                    <p><strong>Date de Livraison:</strong><%=projet.getDateLiverison()%></p>
+                                </div>
                             </div>
+                            <p  style="margin-left: 8px; word-wrap: break-word;"><strong>Description du Projet:</strong> Description du projet ici </p>
+                            <% if(projet.getMethodologie() != null && !projet.getMethodologie().trim().isEmpty()){ %>
+                            <p style="margin-left: 8px;"> <strong>Methodologie:</strong> <%=projet.getMethodologie()%> </p>
+                            <% } %>
+                            <% if(projet.getDateRuenion() != null){ %>
+                            <p style="margin-left: 8px;"> <strong>Date Ruenion:</strong> <%=projet.getDateRuenion()%> </p>
+                            <% } %>
                         </div>
-                        <p  style="margin-left: 8px; word-wrap: break-word;"><strong>Description du Projet:</strong> Description du projet ici </p>
-                        <form style="margin: 10px;" method="post" action="technologieServlet">
-                            <input type="hidden" name="project_id" value="<%=projet.getId()%>">
-                            <label for="methodology">Méthodologie:</label>
-                            <input type="text" id="methodology" name="methodologie" style="width: 80%; padding: 8px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
-                            <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;" name="submitFAddMethodologie">Submit</button>
-                        </form>
+                        <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/js/multi-select-tag.js"></script>
+                        <script>
+                            //new MultiSelectTag('methodology')  // id
+                            new MultiSelectTag('TechnologiesSelect')  // id
+                            // new MultiSelectTag('DevelopersSelect')  // id
+                        </script>
+
+                        <div class="divContentWrapper">
+                            <h2>Les services</h2>
+                            <div>
+                                <table>
+                                    <%HashMap<Service,List<Tache>> serviceListHashMap = (HashMap<Service, List<Tache>>) request.getAttribute("ServicesTaches");
+                                        int i = 0;
+                                        if(serviceListHashMap != null){for(Map.Entry<Service, List<Tache>> entry : serviceListHashMap.entrySet()) {
+                                            Service service = entry.getKey();
+                                            List<Tache> taches = entry.getValue();
+
+                                    %>
+                                    <tr>
+                                        <td style="padding-left : 10px">service  <%=i%> :  </td>
+                                        <td style="padding-left : 10px"><%=service.getDescription()%></td>
+                                        <td style="padding-left : 10px">duree : <%=service.getDuree()%></td>
+                                    </tr>
+                                    <% i++; int j =0;%>
+                                    <% for(Tache tache : taches){ j++;%>
+                                    <tr>
+                                        <td style="padding-left : 60px; padding-right: 50px;">tache <%=j%> :  </td>
+                                        <td style="padding-left : 60px"><%=tache.getDescription()%></td>
+                                        <td style="padding-left : 60px">Avancement : <%=tache.getAvancement()%></td>
+                                    </tr>
+                                    <%}}}%>
+                                </table>
+                            </div>
+                            <div>
+                                <h3>Ajouter Tache</h3>
+                                <form style="margin: 10px; display: flex;flex-direction: row;align-items: center; margin: 10px;justify-content: space-between" method="post" action="TacheServlet">
+                                    <label>Discription</label>
+                                    <input type="text" name="description">
+                                    <label>avancement</label>
+                                    <input type="number" name="avancement">
+                                    <label>service :</label>
+                                    <select id="selectedDevloper" name="selectedService">
+                                        <% for(Map.Entry<Service, List<Tache>> entry : serviceListHashMap.entrySet()) {
+                                            Service service = entry.getKey();
+                                        %>
+                                        <option value="<%=service.getId()%>"><%=service.getDescription()%></option>
+                                        <% } %>
+                                    </select>
+                                    <input type="hidden" name="projet_id" value="<%=projet.getId()%>">
+                                    <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;" name="submitAddTache">Submit</button>
+                                </form>
+                            </div>
+
+
+                        </div>
+
+
+
+
+
+
+
                     </div>
+                    <!-- / Content -->
                 </div>
-                <!-- / Content -->
-
-
-                <div class="content-backdrop fade"></div>
+                <!-- Content wrapper -->
             </div>
-            <!-- Content wrapper -->
+            <!-- / Layout page -->
         </div>
-        <!-- / Layout page -->
-    </div>
 
-    <!-- Overlay -->
-    <div class="layout-overlay layout-menu-toggle"></div>
-</div>
-<!-- / Layout wrapper -->
+        <!-- Overlay -->
+        <div class="layout-overlay layout-menu-toggle"></div>
+    </div>
+    <!-- / Layout wrapper -->
 
 
 </div>
@@ -297,7 +396,6 @@
 
 <script src="resources/assets/vendor/js/menu.js"></script>
 <!-- endbuild -->
-
 <!-- Vendors JS -->
 <script src="resources/assets/vendor/libs/apex-charts/apexcharts.js"></script>
 

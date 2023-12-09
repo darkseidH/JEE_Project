@@ -35,11 +35,42 @@ public class GestionService implements I_GestionService{
         }
         return services;
     }
+    @Override
+    public List<Service> getAllServiceDeveloperProject(Long projet_id,String email) throws SQLException {
+        List<Service> services = new ArrayList<>();
+        ResultSet resultSet = gestionServiceData.getAllServiceByIdProjectDeveloper(projet_id,email);
+        if (resultSet == null) return null;
+        while(resultSet.next()){
+            Service service = new Service();
+            service.setId(resultSet.getLong("id"));
+            service.setDuree(resultSet.getInt("duree"));
+            service.setDescription(resultSet.getString("description"));
+            service.setProjetId(resultSet.getInt("projet_id"));
+            service.setDeveloperId(resultSet.getInt("developer_id"));
+            services.add(service);
+        }
+        return services;
+    }
 
     @Override
     public HashMap<Service, List<Tache>> getAllServiceTache(Long projet_id) throws SQLException {
         HashMap<Service,List<Tache>> serviceTacheHashMap = new HashMap<>();
         List<Service> services = getAllService(projet_id);
+        if(services == null){
+            return null;
+        }else{
+            for(Service service : services){
+                List<Tache> taches = gestionTache.getAllTacheService(service.getId());
+                serviceTacheHashMap.put(service,taches);
+            }
+            return serviceTacheHashMap;
+        }
+    }
+
+    @Override
+    public HashMap<Service, List<Tache>> getAllServiceTacheDeveloperProject(Long projet_id,String email) throws SQLException {
+        HashMap<Service,List<Tache>> serviceTacheHashMap = new HashMap<>();
+        List<Service> services = getAllServiceDeveloperProject(projet_id,email);
         if(services == null){
             return null;
         }else{

@@ -57,6 +57,8 @@ public class HomeServlet extends HttpServlet {
                 targetPage = "/WEB-INF/jsp/home_chef.jsp";
                 break;
             case "developer":
+                HashMap<Projet, User> projets2 = gestionProjet.mapDevProjets(email);
+                request.setAttribute("projets", projets2);
                 targetPage = "/WEB-INF/jsp/home_dev.jsp";
                 break;
             default:

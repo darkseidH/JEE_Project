@@ -11,7 +11,7 @@ public class GestionTacheData implements I_GestionTacheData{
     Connection conn = MySqlConnection.openConnection();
     @Override
     public void addTache(Tache tache) {
-        String req = "insert into tache (avancement,discription,service_id) values (?,?,?);";
+        String req = "insert into tache (avancement,description,service_id) values (?,?,?);";
         try {
             PreparedStatement st = conn.prepareStatement(req);
             st.setLong(1, tache.getAvancement());

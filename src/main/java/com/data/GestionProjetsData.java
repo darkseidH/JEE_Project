@@ -106,6 +106,19 @@ public class GestionProjetsData {
 
         return res;
     }
+    public ResultSet findAllProjetsByEmailDevData(String email) {
+        ResultSet res = null;
+        String req = "select distinct p.* from projet p , service s , user u where p.id = s.projet_id and s.developer_id = u.id  and u.email = ?;";
+        try {
+            PreparedStatement st = conn.prepareStatement(req);
+            st.setString(1, email);
+            res = st.executeQuery();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return res;
+    }
 
     public ResultSet findAllProjetsByStartNameTochefData(String name, String email) {
         ResultSet res = null;
@@ -121,11 +134,19 @@ public class GestionProjetsData {
         return res;
     }
 
+
     public ResultSet findAllProjetsByStartNameToDevloperData(String name, String email) {
         ResultSet res = null;
+        String req = "select distinct p.* from projet p , service s , user u where p.id = s.projet_id and s.developer_id = u.id  and u.email = ? AND p.nom like '"+name+"%';";
+        try {
+            PreparedStatement st = conn.prepareStatement(req);
+            st.setString(1, email);
+            res = st.executeQuery();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
 
         return res;
-
     }
 
     public Projet getProjetByIdData(long l) {
