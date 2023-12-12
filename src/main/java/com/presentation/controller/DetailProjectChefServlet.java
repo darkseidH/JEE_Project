@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -19,6 +20,7 @@ public class DetailProjectChefServlet extends HttpServlet {
     GestionProjets gestionProjets = new GestionProjets();
     I_Gestion_technologie gestionTechnologie = new GestionTechnologie();
     I_GestionService gestionService = new GestionService();
+    I_Gestion_Notifications gestionNotifications = new GestionNotifications();
     public void init() throws ServletException {
         super.init();
     }
@@ -27,6 +29,11 @@ public class DetailProjectChefServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Long projectId = Long.parseLong(req.getParameter("projectId"));
         Projet projet = gestionProjets.getProjetById(projectId);
+        Long notificationId = Long.parseLong(req.getParameter("notificationId"));
+        HttpSession session = req.getSession();
+        Long id = (Long) session.getAttribute("id");
+        if(notificationId != 0)
+        gestionNotifications.deleteNotification(notificationId);
         req.setAttribute("projet", projet);
             try {
                 Map<Technologie, List<User>> technologieProjetDevelopers = gestionTechnologie.getTechnologieAndDevelopersByProjectId(projectId);
@@ -41,6 +48,8 @@ public class DetailProjectChefServlet extends HttpServlet {
                 req.setAttribute("DevelopersNProjetTechnologie", DevelopersNProjetTechnologie);
                 req.setAttribute("DevelopersProjet",DevelopersProjet);
                 req.setAttribute("ServicesTaches",serviceListHashMap);
+                List<Notification> notifications = gestionNotifications.getAllNotificationsUser(id);
+                req.setAttribute("notifications",notifications);
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

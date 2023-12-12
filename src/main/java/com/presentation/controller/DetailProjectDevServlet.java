@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -18,6 +19,7 @@ import java.util.Map;
 public class DetailProjectDevServlet extends HttpServlet {
     GestionProjets gestionProjets = new GestionProjets();
     I_GestionService gestionService = new GestionService();
+    I_Gestion_Notifications gestionNotifications = new GestionNotifications();
     public void init() throws ServletException {
         super.init();
     }
@@ -27,10 +29,17 @@ public class DetailProjectDevServlet extends HttpServlet {
         Long projectId = Long.parseLong(req.getParameter("projectId"));
         Projet projet = gestionProjets.getProjetById(projectId);
         String email = (String) req.getSession().getAttribute("email");
+        Long notificationId = Long.parseLong(req.getParameter("notificationId"));
+        if(notificationId != 0)
+            gestionNotifications.deleteNotification(notificationId);
+        HttpSession session = req.getSession();
+        Long id = (Long) session.getAttribute("id");
         req.setAttribute("projet", projet);
         try {
             HashMap<Service, List<Tache>> serviceListHashMap = gestionService.getAllServiceTacheDeveloperProject(projectId,email);
             req.setAttribute("ServicesTaches",serviceListHashMap);
+            List<Notification> notifications = gestionNotifications.getAllNotificationsUser(id);
+            req.setAttribute("notifications",notifications);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

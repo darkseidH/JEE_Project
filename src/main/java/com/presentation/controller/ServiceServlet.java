@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -19,6 +20,7 @@ public class ServiceServlet extends HttpServlet {
     I_Gestion_technologie gestion_technologie = new GestionTechnologie();
     I_Gestion_Projet gestionProjets = new GestionProjets();
     I_GestionService gestionService = new GestionService();
+    I_Gestion_Notifications gestionNotifications = new GestionNotifications();
     @Override
     public void init() throws ServletException {
         super.init();
@@ -27,7 +29,8 @@ public class ServiceServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Long projet_id = Long.parseLong(req.getParameter("projet_id"));
-
+        HttpSession session = req.getSession();
+        Long iduser = (Long) session.getAttribute("id");
         if(req.getParameter("submitAddService")!= null) {
             Service service = new Service();
             Long id = Long.parseLong(req.getParameter("selectedDeveloper"));
@@ -48,6 +51,8 @@ public class ServiceServlet extends HttpServlet {
             String afficheInputDateRuenion = gestion_technologie.afficheInputDateRuenion(projet_id);
             List<User> DevelopersProjet = gestionProjets.getDevlopersProjet(projet_id);
             HashMap<Service, List<Tache>> serviceListHashMap = gestionService.getAllServiceTache(projet_id);
+            List<Notification> notifications = gestionNotifications.getAllNotificationsUser(iduser);
+            req.setAttribute("notifications",notifications);
             req.setAttribute("afficheInputDateRuenion", afficheInputDateRuenion);
             req.setAttribute("technologies", technologieList);
             req.setAttribute("technologieProjetDevelopers", technologieProjetDevelopers);

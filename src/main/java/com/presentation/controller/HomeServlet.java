@@ -1,7 +1,10 @@
 package com.presentation.controller;
 
+import com.buisness.GestionNotifications;
 import com.buisness.GestionProjets;
 import com.buisness.GestionUser;
+import com.buisness.I_Gestion_Notifications;
+import com.presentation.model.Notification;
 import com.presentation.model.Projet;
 import com.presentation.model.User;
 import jakarta.servlet.ServletException;
@@ -22,6 +25,7 @@ public class HomeServlet extends HttpServlet {
     
     GestionUser gestionUser = new GestionUser();
     GestionProjets gestionProjet = new GestionProjets();
+    I_Gestion_Notifications gestionNotifications = new GestionNotifications();
 
     public void init() {
 
@@ -31,6 +35,7 @@ public class HomeServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String targetPage;
         String email = session.getAttribute("email").toString();
+        Long id = (Long) session.getAttribute("id");
         switch (session.getAttribute("role").toString()) {
             case "director":
                 HashMap<Projet, User> projets = gestionProjet.mapProjectsToChef();
@@ -45,6 +50,12 @@ public class HomeServlet extends HttpServlet {
                 targetPage = "/WEB-INF/jsp/home.jsp";
                 break;
             case "chef":
+                try {
+                    List<Notification> notifications = gestionNotifications.getAllNotificationsUser(id);
+                    request.setAttribute("notifications",notifications);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
                 HashMap<Projet, User> projets1 = gestionProjet.mapChefProjets(email);
                 List<User> users1;
                 try {
@@ -57,6 +68,12 @@ public class HomeServlet extends HttpServlet {
                 targetPage = "/WEB-INF/jsp/home_chef.jsp";
                 break;
             case "developer":
+                try {
+                    List<Notification> notifications = gestionNotifications.getAllNotificationsUser(id);
+                    request.setAttribute("notifications",notifications);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
                 HashMap<Projet, User> projets2 = gestionProjet.mapDevProjets(email);
                 request.setAttribute("projets", projets2);
                 targetPage = "/WEB-INF/jsp/home_dev.jsp";

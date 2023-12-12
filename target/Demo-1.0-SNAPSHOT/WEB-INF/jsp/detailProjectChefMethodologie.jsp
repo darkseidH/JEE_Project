@@ -117,34 +117,30 @@
 
 
              /* Table styles */
-         table {
-             border-collapse: collapse;
-             width: 100%;
-             margin-bottom: 20px; /* Add some spacing at the bottom of the table */
-         }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
 
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
+        .tdService {
             padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            background-color: #ced4da;
+            color: black;
+        }
+        .tdtache {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 0.5px solid #ddd;
+            background-color: #f1f3f5;
+            color: black;
         }
 
-        td {
-            background-color: #f2f2f2;
-            font-weight: bold;
+        tr:hover {
+            background-color: #e0e0e0;
         }
-
-        /* Service row styles */
-        .service-row td {
-            font-weight: bold;
-        }
-
-        /* Task row styles */
-        .task-row td {
-            background-color: #f9f9f9;
-        }
-
-        /* Add more styles as needed */
 
 
 
@@ -192,6 +188,12 @@
                         <a href="accountSetting" class="menu-link">
                             <i class="bx bx-cog me-2"></i>
                             <div data-i18n="Analytics">Account</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link"  onclick="toggle()">
+                            <i class='bx bx-bell'></i>
+                            <div data-i18n="Analytics">Notifications</div>
                         </a>
                     </li>
 
@@ -416,16 +418,16 @@
 
                              %>
                                  <tr>
-                                     <td style="padding-left : 10px">service  <%=i%> :  </td>
-                                     <td style="padding-left : 10px"><%=service.getDescription()%></td>
-                                     <td style="padding-left : 10px">duree : <%=service.getDuree()%></td>
+                                     <td class="tdService" style="padding-left : 10px">service  <%=i%> :  </td>
+                                     <td class="tdService" style="padding-left : 10px"><%=service.getDescription()%></td>
+                                     <td class="tdService" style="padding-left : 10px">duree : <%=service.getDuree()%></td>
                                  </tr>
                                     <% i++; int j =0;%>
                                     <% for(Tache tache : taches){ j++;%>
                                     <tr>
-                                        <td style="padding-left : 60px; padding-right: 50px;">tache <%=j%> :  </td>
-                                        <td style="padding-left : 60px"><%=tache.getDescription()%></td>
-                                        <td style="padding-left : 60px">Avancement : <%=tache.getAvancement()%></td>
+                                        <td class="tdtache" style="padding-left : 60px; padding-right: 50px;">tache <%=j%> :  </td>
+                                        <td class="tdtache" style="padding-left : 60px"><%=tache.getDescription()%></td>
+                                        <td class="tdtache" style="padding-left : 60px">Avancement : <%=tache.getAvancement()%></td>
                                     </tr>
                                     <%}}}%>
                              </table>
@@ -474,6 +476,22 @@
 
 
 </div>
+<div id="popup" class="container">
+    <% List<Notification> notifications = (List<Notification>) request.getAttribute("notifications");
+        for (Notification notification : notifications) {
+    %>
+    <a href="DetailProjectDev?projectId=<%=notification.getProjetId()%>&notificationId=<%=notification.getId()%>" class="notification-item">
+        <div class="notification-content">
+            <%= notification.getContenu() %>
+        </div>
+    </a>
+
+    <% } %>
+
+    <div style="display: flex; justify-content: space-between; margin-top: 23px;">
+        <button type="button" class="btn-fermer" onclick="closePopup()">Fermer</button>
+    </div>
+</div>
 <!-- Core JS -->
 <!-- build:js assets/vendor/js/core.js -->
 <script src="resources/assets/vendor/libs/jquery/jquery.js"></script>
@@ -513,6 +531,21 @@
     function updateTableContent(responseText) {
         var Ttable = document.getElementById('tbodyTable');
         Ttable.innerHTML = responseText;
+    }
+    function toggle() {
+        var blur = document.getElementById("bleur");
+        blur.classList.toggle("active1");
+        var popup = document.getElementById("popup");
+        popup.style.visibility = "visible";
+        popup.style.opacity = 1;
+    }
+
+    function closePopup() {
+        var blur = document.getElementById("bleur");
+        blur.classList.remove("active1");
+        var popup = document.getElementById("popup");
+        popup.style.visibility = "hidden";
+        popup.style.opacity = 0;
     }
 </script>
 </body>

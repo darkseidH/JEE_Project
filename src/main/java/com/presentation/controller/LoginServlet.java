@@ -1,8 +1,11 @@
 package com.presentation.controller;
 
 
+import com.buisness.GestionNotifications;
 import com.buisness.GestionProjets;
 import com.buisness.GestionUser;
+import com.buisness.I_Gestion_Notifications;
+import com.presentation.model.Notification;
 import com.presentation.model.Projet;
 import com.presentation.model.User;
 import com.util.Password;
@@ -22,6 +25,7 @@ import java.util.List;
 public class LoginServlet extends HttpServlet {
     GestionUser gestionUser = new GestionUser();
     GestionProjets gestionProjet = new GestionProjets();
+    I_Gestion_Notifications gestionNotifications = new GestionNotifications();
 
     public void init() throws ServletException {
         super.init();
@@ -76,11 +80,23 @@ public class LoginServlet extends HttpServlet {
                         break;
                     case "chef":
                         HashMap<Projet, User> projets1 = gestionProjet.mapChefProjets(email);
+                        try {
+                            List<Notification> notifications = gestionNotifications.getAllNotificationsUser(user.getId());
+                            request.setAttribute("notifications",notifications);
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
                         request.setAttribute("projets", projets1);
                         targetPage = "/WEB-INF/jsp/home_chef.jsp";
                         break;
                     case "developer":
                         HashMap<Projet, User> projets2 = gestionProjet.mapDevProjets(email);
+                        try {
+                            List<Notification> notifications = gestionNotifications.getAllNotificationsUser(user.getId());
+                            request.setAttribute("notifications",notifications);
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
                         request.setAttribute("projets", projets2);
                         targetPage = "/WEB-INF/jsp/home_dev.jsp";
                         break;

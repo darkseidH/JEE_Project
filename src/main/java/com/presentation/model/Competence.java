@@ -12,4 +12,5 @@ import lombok.Setter;
 public class Competence {
     private Long id;
     private String nom;
+    private Long developer_id;
 }//end Competence

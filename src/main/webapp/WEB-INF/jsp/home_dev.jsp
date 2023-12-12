@@ -1,6 +1,8 @@
 <%@ page import="com.presentation.model.User" %>
 <%@ page import="com.presentation.model.Projet" %>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="com.presentation.model.Notification" %>
+<%@ page import="java.util.List" %>
 <%--
   Created by IntelliJ IDEA.
   User: darkseid
@@ -113,6 +115,12 @@
                         <a href="accountSetting" class="menu-link">
                             <i class="bx bx-cog me-2"></i>
                             <div data-i18n="Analytics">Account</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="menu-link"  onclick="toggle()">
+                            <i class='bx bx-bell'></i>
+                            <div data-i18n="Analytics">Notifications</div>
                         </a>
                     </li>
 
@@ -237,7 +245,7 @@
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                         <td>
                                             <div class="dropdown">
-                                                <a href="DetailProjectDev?projectId=<%=projet.getId()%>"> <img src="resources/images/img.png" height="25px" width="25px" style="margin-left: 20px;">  </a>
+                                                <a href="DetailProjectDev?projectId=<%=projet.getId()%>&notificationId=0"> <img src="resources/images/img.png" height="25px" width="25px" style="margin-left: 20px;">  </a>
                                             </div>
                                         </td>
                                     </tr>
@@ -269,6 +277,24 @@
     <!-- / Layout wrapper -->
 
 
+</div>
+
+
+<div id="popup" class="container">
+    <% List<Notification> notifications = (List<Notification>) request.getAttribute("notifications");
+        for (Notification notification : notifications) {
+    %>
+    <a href="DetailProjectDev?projectId=<%=notification.getProjetId()%>&notificationId=<%=notification.getId()%>" class="notification-item">
+        <div class="notification-content">
+            <%= notification.getContenu() %>
+        </div>
+    </a>
+
+    <% } %>
+
+    <div style="display: flex; justify-content: space-between; margin-top: 23px;">
+        <button type="button" class="btn-fermer" onclick="closePopup()">Fermer</button>
+    </div>
 </div>
 <!-- Core JS -->
 <!-- build:js assets/vendor/js/core.js -->
@@ -310,6 +336,22 @@
     function updateTableContent(responseText) {
         var Ttable = document.getElementById('tbodyTable');
         Ttable.innerHTML = responseText;
+    }
+
+    function toggle() {
+        var blur = document.getElementById("bleur");
+        blur.classList.toggle("active1");
+        var popup = document.getElementById("popup");
+        popup.style.visibility = "visible";
+        popup.style.opacity = 1;
+    }
+
+    function closePopup() {
+        var blur = document.getElementById("bleur");
+        blur.classList.remove("active1");
+        var popup = document.getElementById("popup");
+        popup.style.visibility = "hidden";
+        popup.style.opacity = 0;
     }
 </script>
 </body>

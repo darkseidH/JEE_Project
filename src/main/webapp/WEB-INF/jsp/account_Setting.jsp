@@ -1,4 +1,6 @@
-<%--
+<%@ page import="java.util.List" %>
+<%@ page import="com.presentation.model.Competence" %>
+<%@ page import="com.presentation.model.Notification" %><%--
   Created by IntelliJ IDEA.
   User: darkseid
   Date: 11/25/23
@@ -107,12 +109,21 @@
                             <div data-i18n="Analytics">Account</div>
                         </a>
                     </li>
+                    <% if (session.getAttribute("role").equals("director")) { %>
                     <li class="menu-item">
                         <a href="gestion_Personnel" class="menu-link">
                             <i class="bx bx-cog me-2"></i>
                             <div data-i18n="Analytics">Gestion Personnel</div>
                         </a>
                     </li>
+                    <% }else{ %>
+                    <li class="menu-item">
+                        <a class="menu-link"  onclick="toggle()">
+                            <i class='bx bx-bell'></i>
+                            <div data-i18n="Analytics">Notifications</div>
+                        </a>
+                    </li>
+                    <% } %>
                 </ul>
             </aside>
 
@@ -276,8 +287,51 @@
                             </div>
 
                         </div>
+
+
+
                         <div class="content-backdrop fade"></div>
                     </div>
+
+                    <% String role = (String) session.getAttribute("role");
+                       Long id = (Long) session.getAttribute("id");
+                    if (role.equals("developer")){
+                    %>
+
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        <div class="card">
+                            <h5 class="card-header">Les competences</h5>
+                            <% List<Competence> competences = (List<Competence>) request.getAttribute("competences");
+                            for(Competence competence : competences){
+                            %>
+                            <p style="width : 60%; margin-left:60px; font-family: 'Arial', sans-serif; font-size: 16px; color: #333; background-color: #f0f0f0; padding: 4px;">
+                                <%= competence.getNom() %></p>
+                            <% } %>
+                            <div class="card-body">
+                                <input name="error" type="hidden" id="error"
+                                       value="<%= request.getAttribute("error") %>">
+                                <form class="row g-3 needs-validation" method="post" onsubmit="return accountSetting(2)" id="formComepetence" >
+                                    <div class="col-md-4">
+                                        <label for="firstName" class="form-label">Nom</label>
+                                        <input type="text" class="form-control" id="firstName" name="NomComepetence" required>
+                                    </div>
+                                    <input type="hidden" value="<%=id%>">
+                                    <div class="col-12 d-flex justify-content-end">
+                                        <button class="btn btn-primary" type="submit" name="AddCompetence">Ajouter competence</button>
+                                    </div>
+                                </form>
+
+                            </div>
+
+                        </div>
+                        <div class="content-backdrop fade"></div>
+                        <% } %>
+                    </div>
+
+
+
+
+
                 </div>
             </div>
 
@@ -285,41 +339,31 @@
         </div>
 
     </div>
+  <%if (session.getAttribute("role").equals("developer")){ %>
+    <div id="popup" class="container">
+        <% List<Notification> notifications = (List<Notification>) request.getAttribute("notifications");
+            for (Notification notification : notifications) {
+                if(role.equals("developer")){
+        %>
+        <a href="DetailProjectDev?projectId=<%=notification.getProjetId()%>&notificationId=<%=notification.getId()%>" class="notification-item">
+            <div class="notification-content">
+                <%= notification.getContenu() %>
+            </div>
+        </a>
+        <% }else{ %>
+        <a href="DetailProjectChef?projectId=<%=notification.getProjetId()%>&notificationId=<%=notification.getId()%>" class="notification-item">
+            <div class="notification-content">
+                <%= notification.getContenu() %>
+            </div>
+        </a>
 
-<%--    <div id="popup" class="container">--%>
-<%--        <form class="project-form" action="add_project" method="post">--%>
-<%--            <div id="div_Form">--%>
-<%--                <div>--%>
-<%--                    <label for="nom_projet">Nom du Projet :</label>--%>
-<%--                    <input type="text" id="nom_projet" name="nom_projet" class="form-control" required>--%>
+        <% } }%>
 
-<%--                    <label for="description_projet">Description du Projet :</label>--%>
-<%--                    <textarea id="description_projet" name="description_projet" class="form-control"--%>
-<%--                              required></textarea>--%>
-
-<%--                    <label for="client_projet">Client du Projet :</label>--%>
-<%--                    <input type="text" id="client_projet" name="client_projet" class="form-control" required>--%>
-
-<%--                    <label for="date_demarrage">Date de Démarrage :</label>--%>
-<%--                    <input type="date" id="date_demarrage" name="date_demarrage" class="form-control" required>--%>
-<%--                </div>--%>
-<%--                <div>--%>
-<%--                    <label for="date_livraison">Date de Livraison :</label>--%>
-<%--                    <input type="date" id="date_livraison" name="date_livraison" class="form-control" required>--%>
-<%--                    <label for="chef_projet">Chef de Projet :</label>--%>
-<%--                    <select id="chef_projet" name="chef_projet" class="form-control" required>--%>
-
-<%--                    </select>--%>
-
-<%--                </div>--%>
-<%--            </div>--%>
-<%--            <div style="display: flex; justify-content: space-between; margin-top: 23px;">--%>
-<%--                <button type="text" class="btn-fermer" onclick="closePopup()">Fermer</button>--%>
-<%--                <button type="submit" class="btn-submit">Créer Projet</button>--%>
-<%--            </div>--%>
-
-<%--        </form>--%>
-<%--    </div>--%>
+        <div style="display: flex; justify-content: space-between; margin-top: 23px;">
+            <button type="button" class="btn-fermer" onclick="closePopup()">Fermer</button>
+        </div>
+    </div>
+    <% } %>
 
     <script src="resources/assets/vendor/libs/jquery/jquery.js"></script>
     <script src="resources/assets/vendor/libs/popper/popper.js"></script>
@@ -386,10 +430,28 @@
             if (param === 0) {
                 var form = document.getElementById("formInfoPerso");
                 form.action = "accountSetting?param=0";
-            } else {
+            } else if(param === 1){
                 var form = document.getElementById("formPassword");
                 form.action = "accountSetting?param=1";
+            }else{
+                var form = document.getElementById("formComepetence");
+                form.action = "accountSetting?param=2";
             }
+        }
+        function toggle() {
+            var blur = document.getElementById("bleur");
+            blur.classList.toggle("active1");
+            var popup = document.getElementById("popup");
+            popup.style.visibility = "visible";
+            popup.style.opacity = 1;
+        }
+
+        function closePopup() {
+            var blur = document.getElementById("bleur");
+            blur.classList.remove("active1");
+            var popup = document.getElementById("popup");
+            popup.style.visibility = "hidden";
+            popup.style.opacity = 0;
         }
 
     </script>

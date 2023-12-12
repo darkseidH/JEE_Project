@@ -1,6 +1,8 @@
 <%@ page import="com.presentation.model.User" %>
 <%@ page import="com.presentation.model.Projet" %>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.presentation.model.Notification" %>
 <%--
   Created by IntelliJ IDEA.
   User: darkseid
@@ -38,6 +40,20 @@
     <title>Dashboard</title>
 
     <meta name="description" content=""/>
+    <style>
+        .notification-item {
+            text-decoration: none;
+            color: #333;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .notification-item:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="resources/assets/img/favicon/favicon.ico"/>
@@ -116,6 +132,13 @@
                         </a>
                     </li>
 
+                    <li class="menu-item">
+                        <a class="menu-link"  onclick="toggle()">
+                            <i class='bx bx-bell'></i>
+                            <div data-i18n="Analytics">Notifications</div>
+                        </a>
+                    </li>
+
                 </ul>
             </aside>
 
@@ -148,8 +171,6 @@
                                 />
                             </div>
                         </div>
-
-
                         <ul class="navbar-nav flex-row align-items-center ms-auto">
 
                             <li class="nav-item navbar-dropdown dropdown-user dropdown">
@@ -237,7 +258,7 @@
                                         <td><span class="badge bg-label-primary me-1">Active</span></td>
                                         <td>
                                             <div class="dropdown">
-                                                <a href="DetailProjectChef?projectId=<%=projet.getId()%>"> <img src="resources/images/img.png" height="25px" width="25px" style="margin-left: 20px;">  </a>
+                                                <a href="DetailProjectChef?projectId=<%=projet.getId()%>&notificationId=0"> <img src="resources/images/img.png" height="25px" width="25px" style="margin-left: 20px;">  </a>
                                             </div>
                                         </td>
                                     </tr>
@@ -270,6 +291,26 @@
 
 
 </div>
+
+<div id="popup" class="container">
+    <% List<Notification> notifications = (List<Notification>) request.getAttribute("notifications");
+        for (Notification notification : notifications) {
+    %>
+    <a href="DetailProjectChef?projectId=<%=notification.getProjetId()%>&notificationId=<%=notification.getId()%>" class="notification-item">
+        <div class="notification-content">
+            <%= notification.getContenu() %>
+        </div>
+    </a>
+
+    <% } %>
+
+    <div style="display: flex; justify-content: space-between; margin-top: 23px;">
+        <button type="button" class="btn-fermer" onclick="closePopup()">Fermer</button>
+    </div>
+</div>
+
+
+
 <!-- Core JS -->
 <!-- build:js assets/vendor/js/core.js -->
 <script src="resources/assets/vendor/libs/jquery/jquery.js"></script>
@@ -293,7 +334,21 @@
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
 <script type="text/javascript">
+    function toggle() {
+        var blur = document.getElementById("bleur");
+        blur.classList.toggle("active1");
+        var popup = document.getElementById("popup");
+        popup.style.visibility = "visible";
+        popup.style.opacity = 1;
+    }
 
+    function closePopup() {
+        var blur = document.getElementById("bleur");
+        blur.classList.remove("active1");
+        var popup = document.getElementById("popup");
+        popup.style.visibility = "hidden";
+        popup.style.opacity = 0;
+    }
     function searchProjects() {
         const searchInput = document.getElementById('searchInput');
         var inputValue = searchInput.value;

@@ -7,6 +7,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -19,6 +20,7 @@ public class TacheServlet extends HttpServlet {
     I_GestionTache gestionTache = new GetionTache();
     I_Gestion_Projet gestionProjets = new GestionProjets();
     I_GestionService gestionService = new GestionService();
+    I_Gestion_Notifications gestionNotifications = new GestionNotifications();
     @Override
     public void init() throws ServletException {
         super.init();
@@ -27,7 +29,8 @@ public class TacheServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Long projet_id = Long.parseLong(req.getParameter("projet_id"));
-
+        HttpSession session = req.getSession();
+        Long iduser = (Long) session.getAttribute("id");
         if(req.getParameter("submitAddTache")!= null) {
             Tache tache = new Tache();
             System.out.println("ezfzefze");
@@ -46,6 +49,8 @@ public class TacheServlet extends HttpServlet {
         try {
             HashMap<Service, List<Tache>> serviceListHashMap = gestionService.getAllServiceTacheDeveloperProject(projet_id,email);
             req.setAttribute("ServicesTaches",serviceListHashMap);
+            List<Notification> notifications = gestionNotifications.getAllNotificationsUser(iduser);
+            req.setAttribute("notifications",notifications);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
